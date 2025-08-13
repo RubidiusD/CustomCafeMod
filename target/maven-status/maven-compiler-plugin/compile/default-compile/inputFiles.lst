@@ -1,7 +1,10 @@
 C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\customcafepatchmod\CustomCafePatchMod.java
+C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\customcafepatchmod\patches\CustomDeckOrderingPatch.java
 C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\customcafepatchmod\patches\RelicPatch.java
-C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\customcafepatchmod\PowerCardScreenBase.java
+C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\customcafepatchmod\patches\RelicStartPatch.java
+C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\customcafepatchmod\screens\PowerCardScreenBase.java
 C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\customcafepatchmod\util\CardStats.java
+C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\customcafepatchmod\util\CustomCafeConfig.java
 C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\customcafepatchmod\util\GeneralUtils.java
 C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\customcafepatchmod\util\KeywordInfo.java
 C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\customcafepatchmod\util\TextureLoader.java

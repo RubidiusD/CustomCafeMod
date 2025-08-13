@@ -1,17 +1,17 @@
 package customcafepatchmod.patches;
 
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePrefixPatch;
-import customcafepatchmod.PowerCardScreenBase;
+import com.megacrit.cardcrawl.rooms.AbstractRoom;
+import customcafepatchmod.screens.PowerCardScreenBase;
 import spireCafe.interactables.patrons.powerelic.implementation.PowerelicRelic;
 
 @SpirePatch2(
         clz= PowerelicRelic.class,
-        method= "onEnterRoom"
+        method= "<class>",
+        paramtypez={AbstractRoom.class}
 )
 public class RelicPatch {
-    @SpirePrefixPatch
-    public static void Prefix(PowerelicRelic __instance) {
+    public static void OnEnterRoom(PowerelicRelic __instance) {
         if (__instance.capturedCard == null) {
             PowerCardScreenBase.generateScreen(__instance).open();
         }

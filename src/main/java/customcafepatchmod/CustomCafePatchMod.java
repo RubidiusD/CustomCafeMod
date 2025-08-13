@@ -2,6 +2,7 @@ package customcafepatchmod;
 
 import basemod.BaseMod;
 import basemod.interfaces.*;
+import customcafepatchmod.util.CustomCafeConfig;
 import customcafepatchmod.util.GeneralUtils;
 import customcafepatchmod.util.KeywordInfo;
 import customcafepatchmod.util.TextureLoader;
@@ -27,8 +28,6 @@ import java.util.*;
 
 @SpireInitializer
 public class CustomCafePatchMod implements
-        EditStringsSubscriber,
-        EditKeywordsSubscriber,
         PostInitializeSubscriber {
     public static ModInfo info;
     public static String modID; //Edit your pom.xml to change this
@@ -61,7 +60,7 @@ public class CustomCafePatchMod implements
 
         //If you want to set up a config panel, that will be done here.
         //You can find information about this on the BaseMod wiki page "Mod Config and Panel".
-        BaseMod.registerModBadge(badgeTexture, info.Name, GeneralUtils.arrToString(info.Authors), info.Description, null);
+        BaseMod.registerModBadge(badgeTexture, info.Name, GeneralUtils.arrToString(info.Authors), info.Description, new CustomCafeConfig());
     }
 
     /*----------Localization----------*/
@@ -74,25 +73,6 @@ public class CustomCafePatchMod implements
     private static final String defaultLanguage = "eng";
 
     public static final Map<String, KeywordInfo> keywords = new HashMap<>();
-
-    @Override
-    public void receiveEditStrings() {
-        /*
-            First, load the default localization.
-            Then, if the current language is different, attempt to load localization for that language.
-            This results in the default localization being used for anything that might be missing.
-            The same process is used to load keywords slightly below.
-        */
-        loadLocalization(defaultLanguage); //no exception catching for default localization; you better have at least one that works.
-        if (!defaultLanguage.equals(getLangString())) {
-            try {
-                loadLocalization(getLangString());
-            }
-            catch (GdxRuntimeException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     private void loadLocalization(String lang) {
         //While this does load every type of localization, most of these files are just outlines so that you can see how they're formatted.
@@ -113,34 +93,6 @@ public class CustomCafePatchMod implements
                 localizationPath(lang, "RelicStrings.json"));
         BaseMod.loadCustomStringsFile(UIStrings.class,
                 localizationPath(lang, "UIStrings.json"));
-    }
-
-    @Override
-    public void receiveEditKeywords()
-    {
-        Gson gson = new Gson();
-        String json = Gdx.files.internal(localizationPath(defaultLanguage, "Keywords.json")).readString(String.valueOf(StandardCharsets.UTF_8));
-        KeywordInfo[] keywords = gson.fromJson(json, KeywordInfo[].class);
-        for (KeywordInfo keyword : keywords) {
-            keyword.prep();
-            registerKeyword(keyword);
-        }
-
-        if (!defaultLanguage.equals(getLangString())) {
-            try
-            {
-                json = Gdx.files.internal(localizationPath(getLangString(), "Keywords.json")).readString(String.valueOf(StandardCharsets.UTF_8));
-                keywords = gson.fromJson(json, KeywordInfo[].class);
-                for (KeywordInfo keyword : keywords) {
-                    keyword.prep();
-                    registerKeyword(keyword);
-                }
-            }
-            catch (Exception e)
-            {
-                logger.warn(modID + " does not support " + getLangString() + " keywords.");
-            }
-        }
     }
 
     private void registerKeyword(KeywordInfo info) {

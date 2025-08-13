@@ -2,6 +2,7 @@
 <project name="maven-antrun-" default="main">
   <target name="main">
     <copy file="target/customcafepatchmod.jar" tofile="C:/Program Files (x86)/steam/steamapps/common/SlayTheSpire/customcafepatchmod/content/customcafepatchmod.jar" />
+    <copy file="target/customcafepatchmod.jar" tofile="C:/Program Files (x86)/steam/steamapps/common/SlayTheSpire/mods/customcafepatchmod.jar" />
     <copy file="target/customcafepatchmod.jar" tofile="C:/Program Files (x86)/steam/steamapps/workshop/content/646570/3548044797/customcafepatchmod.jar" />
   </target>
 </project>

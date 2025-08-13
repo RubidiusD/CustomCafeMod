@@ -1,4 +1,4 @@
-package customcafepatchmod;
+package customcafepatchmod.screens;
 
 import CustomStart.Patches.AbstractDungeonPatcher;
 import basemod.BaseMod;
