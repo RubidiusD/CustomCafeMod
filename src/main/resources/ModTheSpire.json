@@ -1,0 +1,11 @@
+{
+  "modid": "customcafepatchmod",
+  "name": "${project.name}",
+  "author_list": ["${author}"],
+  "description": "!(project.description)",
+  "version": "${project.version}",
+  "sts_version": "${SlayTheSpire.version}",
+  "mts_version": "${ModTheSpire.version}",
+  "dependencies": ["basemod", "stslib", "anniv7", "CustomStart"],
+  "update_json": ""
+}
