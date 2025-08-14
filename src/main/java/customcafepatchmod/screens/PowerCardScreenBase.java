@@ -1,11 +1,11 @@
 package customcafepatchmod.screens;
 
-import CustomStart.Patches.AbstractDungeonPatcher;
-import basemod.BaseMod;
+import basemod.abstracts.CustomScreen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -30,7 +30,10 @@ public class PowerCardScreenBase {
         return new PowerCardScreen(relic);
     }
 
-    public static class PowerCardScreen implements ScrollBarListener {
+    @SpireEnum
+    public static AbstractDungeon.CurrentScreen POWERCARDGRIDSCREEN;
+
+    public static class PowerCardScreen extends CustomScreen implements ScrollBarListener {
         private float grabStartY = 0.0F;
 
         private float currentDiffY = 0.0F;
@@ -61,12 +64,12 @@ public class PowerCardScreenBase {
             this.relic = target;
         }
 
-        private void InitCardList(AbstractCard.CardColor color) {
+        private void InitCardList() {
             ArrayList<AbstractCard> cardList = CardLibrary.getAllCards();
-            cardList.removeIf(x -> (x.color != color));
             cardList.removeIf(abstractCard -> (abstractCard.type != AbstractCard.CardType.POWER));
             cardList.sort((o1, o2) -> o2.cost - o1.cost);
             cardList.sort((o1, o2) -> o2.rarity.compareTo(o1.rarity));
+            cardList.sort((o1, o2) -> o2.color.compareTo(o1.color));
             this.targetGroup.clear();
             for (AbstractCard card : cardList) {
                 card.isSeen = true;
@@ -75,16 +78,7 @@ public class PowerCardScreenBase {
         }
 
         public void open() {
-            this.colorList = new ArrayList<>();
-            this.colorList.add(AbstractCard.CardColor.RED);
-            this.colorList.add(AbstractCard.CardColor.GREEN);
-            this.colorList.add(AbstractCard.CardColor.BLUE);
-            this.colorList.add(AbstractCard.CardColor.PURPLE);
-            this.colorList.add(AbstractCard.CardColor.COLORLESS);
-            this.colorList.addAll(BaseMod.getCardColors());
-            this.colorList.remove(AbstractCard.CardColor.CURSE);
-            InitCardList(this.colorList.get(0));
-            this.colorList.remove(this.colorList.get(0));
+            InitCardList();
             callOnOpen();
             AbstractDungeon.overlayMenu.cancelButton.hide();
             this.confirmButton.isDisabled = false;
@@ -92,9 +86,23 @@ public class PowerCardScreenBase {
             calculateScrollBounds();
         }
 
+        @Override
+        public AbstractDungeon.CurrentScreen curScreen() {
+            return POWERCARDGRIDSCREEN;
+        }
+
+        @Override
+        public void reopen() {
+
+        }
+
+        @Override
+        public void close() {
+
+        }
+
         public void update() {
-            if ((this.targetGroup == null || this.targetGroup.isEmpty()) && (
-                    this.colorList == null || this.colorList.isEmpty()))
+            if (this.targetGroup == null || this.targetGroup.isEmpty())
                 open();
             updateControllerInput();
             if (Settings.isControllerMode && this.controllerCard != null && !CardCrawlGame.isPopupOpen && this.upgradePreviewCard == null)
@@ -111,12 +119,7 @@ public class PowerCardScreenBase {
             this.confirmButton.update();
             if (this.confirmButton.hb.clicked) {
                 this.confirmButton.hb.clicked = false;
-                if (!this.colorList.isEmpty()) {
-                    InitCardList(this.colorList.get(0));
-                    this.colorList.remove(0);
-                } else {
-                    AbstractDungeon.closeCurrentScreen();
-                }
+                AbstractDungeon.closeCurrentScreen();
             } else {
                 updateCardPositionsAndHoverLogic();
                 if (this.hoveredCard != null && InputHelper.justClickedLeft)
@@ -238,7 +241,7 @@ public class PowerCardScreenBase {
             this.grabbedScreen = false;
             hideCards();
             AbstractDungeon.isScreenUp = true;
-            AbstractDungeon.screen = AbstractDungeonPatcher.CUSTOMSTARTDECKGRIDSCREEN;
+            AbstractDungeon.screen = POWERCARDGRIDSCREEN;
             AbstractDungeon.overlayMenu.showBlackScreen(0.5F);
             this.confirmButton.hideInstantly();
             if (this.targetGroup.group.size() <= 5) {
@@ -329,6 +332,11 @@ public class PowerCardScreenBase {
             FontHelper.renderDeckViewTip(sb, "Select all cards you want in your deck at the start of the run.", 96.0F * Settings.scale, Settings.CREAM_COLOR);
         }
 
+        @Override
+        public void openingSettings() {
+
+        }
+
         public void scrolledUsingBar(float newPercent) {
             this.currentDiffY = MathHelper.valueFromPercentBetween(this.scrollLowerBound, this.scrollUpperBound, newPercent);
             updateBarPosition();
@@ -368,7 +376,5 @@ public class PowerCardScreenBase {
         private final ScrollBar scrollBar;
 
         private AbstractCard controllerCard;
-
-        private ArrayList<AbstractCard.CardColor> colorList;
     }
 }
