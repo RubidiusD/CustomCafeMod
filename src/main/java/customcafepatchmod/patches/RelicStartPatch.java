@@ -3,6 +3,7 @@ package customcafepatchmod.patches;
 import CustomStart.CustomRunMods.Relicselectscreen;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 
@@ -17,5 +18,6 @@ public class RelicStartPatch {
         if (includeEventRelics) {
             ___relics.addAll(RelicLibrary.specialList);
         }
+        ___relics.removeIf(o1 -> AbstractDungeon.player.hasRelic(o1.relicId));
     }
 }

@@ -2,8 +2,10 @@ package customcafepatchmod.patches;
 
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePrefixPatch;
-import customcafepatchmod.screens.PowerCardScreenBase;
+import customcafepatchmod.screens.PowerCardScreen;
 import spireCafe.interactables.patrons.powerelic.implementation.PowerelicRelic;
+
+import static basemod.BaseMod.openCustomScreen;
 
 @SpirePatch2(
         clz= PowerelicRelic.class,
@@ -16,7 +18,7 @@ public class RelicPatch {
         System.out.println("Checking if null --------------------------------------------------");
         if (__instance.capturedCard == null) {
             System.out.println("null ---------------------------------------------- :)");
-            PowerCardScreenBase.generateScreen(__instance).open();
+            openCustomScreen(PowerCardScreen.POWERCARDGRIDSCREEN, __instance);
         }
     }
 }

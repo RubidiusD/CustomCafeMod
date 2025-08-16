@@ -2,8 +2,7 @@ package customcafepatchmod;
 
 import basemod.BaseMod;
 import basemod.interfaces.*;
-import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import customcafepatchmod.screens.PowerCardScreen;
 import customcafepatchmod.util.CustomCafeConfig;
 import customcafepatchmod.util.GeneralUtils;
 import customcafepatchmod.util.KeywordInfo;
@@ -23,6 +22,8 @@ import org.apache.logging.log4j.Logger;
 import org.scannotation.AnnotationDB;
 
 import java.util.*;
+
+import static basemod.BaseMod.addCustomScreen;
 
 @SpireInitializer
 public class CustomCafePatchMod implements
@@ -59,6 +60,7 @@ public class CustomCafePatchMod implements
         //If you want to set up a config panel, that will be done here.
         //You can find information about this on the BaseMod wiki page "Mod Config and Panel".
         BaseMod.registerModBadge(badgeTexture, info.Name, GeneralUtils.arrToString(info.Authors), info.Description, new CustomCafeConfig());
+        addCustomScreen(new PowerCardScreen());
     }
 
     /*----------Localization----------*/
@@ -75,18 +77,6 @@ public class CustomCafePatchMod implements
     private void loadLocalization(String lang) {
         //While this does load every type of localization, most of these files are just outlines so that you can see how they're formatted.
         //Feel free to comment out/delete any that you don't end up using.
-        BaseMod.loadCustomStringsFile(CardStrings.class,
-                localizationPath(lang, "CardStrings.json"));
-        BaseMod.loadCustomStringsFile(CharacterStrings.class,
-                localizationPath(lang, "CharacterStrings.json"));
-        BaseMod.loadCustomStringsFile(EventStrings.class,
-                localizationPath(lang, "EventStrings.json"));
-        BaseMod.loadCustomStringsFile(OrbStrings.class,
-                localizationPath(lang, "OrbStrings.json"));
-        BaseMod.loadCustomStringsFile(PotionStrings.class,
-                localizationPath(lang, "PotionStrings.json"));
-        BaseMod.loadCustomStringsFile(PowerStrings.class,
-                localizationPath(lang, "PowerStrings.json"));
         BaseMod.loadCustomStringsFile(RelicStrings.class,
                 localizationPath(lang, "RelicStrings.json"));
         BaseMod.loadCustomStringsFile(UIStrings.class,
@@ -111,9 +101,6 @@ public class CustomCafePatchMod implements
     }
     public static String powerPath(String file) {
         return resourcesFolder + "/images/powers/" + file;
-    }
-    public static String relicPath(String file) {
-        return resourcesFolder + "/images/relics/" + file;
     }
 
     /**

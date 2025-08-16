@@ -1,13 +1,12 @@
-customcafepatchmod\screens\PowerCardScreenBase.class
 customcafepatchmod\CustomCafePatchMod.class
+customcafepatchmod\screens\PowerCardScreen.class
+customcafepatchmod\util\KeywordInfo.class
 customcafepatchmod\patches\CustomDeckOrderingPatch.class
+customcafepatchmod\patches\RelicPatch.class
 customcafepatchmod\util\GeneralUtils.class
 customcafepatchmod\patches\RelicStartPatch.class
-customcafepatchmod\util\TriFunction.class
-customcafepatchmod\util\KeywordInfo.class
-customcafepatchmod\patches\RelicPatch.class
-customcafepatchmod\screens\PowerCardScreenBase$PowerCardScreen.class
 customcafepatchmod\util\CustomCafeConfig.class
 customcafepatchmod\util\TextureLoader$1.class
+customcafepatchmod\util\TriFunction.class
 customcafepatchmod\util\CardStats.class
 customcafepatchmod\util\TextureLoader.class
