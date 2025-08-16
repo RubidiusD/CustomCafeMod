@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePrefixPatch;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -24,6 +26,8 @@ import spireCafe.interactables.patrons.powerelic.implementation.PowerelicRelic;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import static basemod.BaseMod.openCustomScreen;
 
 public class PowerCardScreen extends CustomScreen implements ScrollBarListener {
     @SpireEnum public static AbstractDungeon.CurrentScreen POWERCARDGRIDSCREEN;
@@ -297,11 +301,11 @@ public class PowerCardScreen extends CustomScreen implements ScrollBarListener {
             int mod = i % 5;
             if (mod == 0 && i != 0)
                 lineNum++;
-            (cards.get(i)).lighten(true);
-            (cards.get(i)).current_x = drawStartX + mod * padX;
-            (cards.get(i)).current_y = drawStartY + this.currentDiffY - lineNum * padY - MathUtils.random(100.0F * Settings.scale, 200.0F * Settings.scale);
-            (cards.get(i)).targetDrawScale = 0.75F;
-            (cards.get(i)).drawScale = 0.75F;
+            cards.get(i).lighten(true);
+            cards.get(i).current_x = drawStartX + mod * padX;
+            cards.get(i).current_y = drawStartY + this.currentDiffY - lineNum * padY - MathUtils.random(100.0F * Settings.scale, 200.0F * Settings.scale);
+            cards.get(i).targetDrawScale = 0.75F;
+            cards.get(i).drawScale = 0.75F;
         }
     }
 
@@ -372,4 +376,14 @@ public class PowerCardScreen extends CustomScreen implements ScrollBarListener {
     private final ScrollBar scrollBar;
 
     private AbstractCard controllerCard;
+
+    @SpirePatch2(clz= PowerelicRelic.class, method= "atPreBattle", paramtypez={})
+    public static class RelicPatch {
+        @SpirePrefixPatch
+        public static void Prefix(PowerelicRelic __instance) {
+            if (__instance.capturedCard == null && !AbstractDungeon.isScreenUp) {
+                openCustomScreen(PowerCardScreen.POWERCARDGRIDSCREEN, __instance);
+            }
+        }
+    }
 }
