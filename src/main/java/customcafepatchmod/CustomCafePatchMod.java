@@ -3,7 +3,6 @@ package customcafepatchmod;
 import basemod.BaseMod;
 import basemod.interfaces.*;
 import customcafepatchmod.screens.PowerCardScreen;
-import customcafepatchmod.screens.RelicCardScreen;
 import customcafepatchmod.util.CustomCafeConfig;
 import customcafepatchmod.util.GeneralUtils;
 import customcafepatchmod.util.KeywordInfo;
@@ -62,7 +61,6 @@ public class CustomCafePatchMod implements
         //You can find information about this on the BaseMod wiki page "Mod Config and Panel".
         BaseMod.registerModBadge(badgeTexture, info.Name, GeneralUtils.arrToString(info.Authors), info.Description, new CustomCafeConfig());
         addCustomScreen(new PowerCardScreen());
-        addCustomScreen(new RelicCardScreen());
     }
 
     /*----------Localization----------*/
