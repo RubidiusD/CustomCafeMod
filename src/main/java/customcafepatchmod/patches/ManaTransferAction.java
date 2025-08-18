@@ -1,12 +1,12 @@
 package customcafepatchmod.patches;
 
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePrefixPatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.defect.IncreaseMaxOrbAction;
+import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.monsters.AbstractMonster;
 
 
 public class ManaTransferAction extends AbstractGameAction {
@@ -28,10 +28,8 @@ public class ManaTransferAction extends AbstractGameAction {
 
     @SpirePatch(cls= "fakermod.cards.saber.ManaTransfer", method= "use", requiredModId = "FakerMod")
     public static class ManaTransferFix {
-        @SpirePrefixPatch
-        public static SpireReturn<Void> Prefix() {
+        public static void Replace(AbstractCard __instance, AbstractPlayer p, AbstractMonster m) {
             AbstractDungeon.actionManager.addToBottom(new ManaTransferAction(AbstractDungeon.player));
-            return SpireReturn.Return();
         }
     }
 }
