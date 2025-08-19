@@ -3,7 +3,7 @@
   "name": "Custom Deck + Spire Cafe Compatibility Patch",
   "author_list": ["Rubidius \"Rubi\" Dext"],
   "description": "Because starting with a custom deck and relics wasn't op enough already.",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "sts_version": "12-18-2022",
   "mts_version": "3.30.0",
   "dependencies": ["basemod", "stslib", "anniv7", "CustomStart"],

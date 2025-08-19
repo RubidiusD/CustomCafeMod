@@ -17,10 +17,12 @@ import com.evacipated.cardcrawl.modthespire.Patcher;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.localization.*;
+import javassist.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.scannotation.AnnotationDB;
 
+import java.io.IOException;
 import java.util.*;
 
 import static basemod.BaseMod.addCustomScreen;
@@ -61,6 +63,21 @@ public class CustomCafePatchMod implements
         //You can find information about this on the BaseMod wiki page "Mod Config and Panel".
         BaseMod.registerModBadge(badgeTexture, info.Name, GeneralUtils.arrToString(info.Authors), info.Description, new CustomCafeConfig());
         addCustomScreen(new PowerCardScreen());
+
+//        ClassPool pool = ClassPool.getDefault();
+//        try {
+//            CtClass cc = pool.get("fakermod.cards.saber.ManaTransfer");
+//            CtMethod m = cc.getDeclaredMethod("use");
+//            m.setBody("com.megacrit.cardcrawl.dungeons.AbstractDungeon.actionManager.addToBottom(new customcafepatchmod.patches.ManaTransferAction(com.megacrit.cardcrawl.dungeons.AbstractDungeon.player));");
+//            cc.writeFile();
+//            System.out.println("------------------------------------Mana Transfer Patched Successfully. -------------");
+//        } catch (NotFoundException e) {
+//            System.out.println("------------------------------------Mana Transfer not Found. -------------");
+//        } catch (CannotCompileException e) {
+//            System.out.println("------------------------------------Mana Transfer not Compiling. -------------");
+//        } catch (IOException e) {
+//            System.out.println("------------------------------------Mana Transfer not Being Happy. -------------");
+//        }
     }
 
     /*----------Localization----------*/
