@@ -1,6 +1,5 @@
 package customcafepatchmod.patches;
 
-import CustomStart.CustomRunMods.CustomDeckScreenBase;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInstrumentPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
@@ -12,7 +11,7 @@ import javassist.expr.MethodCall;
 import java.util.ArrayList;
 
 public class CustomDeckPatches {
-    @SpirePatch2(clz= CustomDeckScreenBase.CustomDeckScreen.class, method= "open", paramtypez = {})
+    @SpirePatch2(cls= "CustomStart.CustomRunMods.CustomDeckScreenBase.CustomDeckScreen", method= "open", paramtypez = {}, requiredModId = "CustomStart")
     public static class OrderingPatch {
         @SpireInsertPatch(rloc= 5)
         public static void Insert(ArrayList<AbstractCard.CardColor> ___colorList) {
@@ -21,7 +20,7 @@ public class CustomDeckPatches {
         }
     }
 
-    @SpirePatch2(clz= CustomDeckScreenBase.CustomDeckScreen.class, method= "InitCardList", paramtypez = {AbstractCard.CardColor.class})
+    @SpirePatch2(cls= "CustomStart.CustomRunMods.CustomDeckScreenBase.CustomDeckScreen", method= "InitCardList", paramtypez = {AbstractCard.CardColor.class}, requiredModId = "CustomStart")
     public static class IncludeStatusCardsPatch {
         @SpireInstrumentPatch
         public static ExprEditor Instrument() {

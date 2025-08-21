@@ -1,6 +1,5 @@
 package customcafepatchmod.patches;
 
-import CustomStart.CustomRunMods.Relicselectscreen;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
@@ -11,7 +10,7 @@ import java.util.ArrayList;
 
 import static customcafepatchmod.util.CustomCafeConfig.includeEventRelics;
 
-@SpirePatch2(clz= Relicselectscreen.class, method= "open", paramtypez = {})
+@SpirePatch2(cls= "CustomStart.CustomRunMods.Relicselectscreen", method= "open", paramtypez = {}, requiredModId = "CustomStart")
 public class RelicStartPatch {
     @SpireInsertPatch(rloc=9)
     public static void Insert(ArrayList<AbstractRelic> ___relics) {

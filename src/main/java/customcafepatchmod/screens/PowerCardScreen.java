@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
+import com.evacipated.cardcrawl.modthespire.lib.SpireInstrumentPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePrefixPatch;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -19,15 +19,16 @@ import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.MathHelper;
 import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
+import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.screens.mainMenu.ScrollBar;
 import com.megacrit.cardcrawl.screens.mainMenu.ScrollBarListener;
 import com.megacrit.cardcrawl.ui.buttons.GridSelectConfirmButton;
-import spireCafe.interactables.patrons.powerelic.implementation.PowerelicRelic;
+import javassist.CannotCompileException;
+import javassist.expr.ExprEditor;
+import javassist.expr.MethodCall;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import static basemod.BaseMod.openCustomScreen;
 
 public class PowerCardScreen extends CustomScreen implements ScrollBarListener {
     @SpireEnum public static AbstractDungeon.CurrentScreen POWERCARDGRIDSCREEN;
@@ -40,7 +41,7 @@ public class PowerCardScreen extends CustomScreen implements ScrollBarListener {
 
     private final AbstractCard upgradePreviewCard = null;
 
-    private PowerelicRelic relic;
+    private AbstractRelic relic;
 
     public PowerCardScreen() {
         this.scrollLowerBound = -Settings.DEFAULT_SCROLL_LIMIT;
@@ -74,7 +75,7 @@ public class PowerCardScreen extends CustomScreen implements ScrollBarListener {
         }
     }
 
-    public void open(PowerelicRelic target) {
+    public void open(AbstractRelic target) {
         InitCardList();
         callOnOpen();
         AbstractDungeon.overlayMenu.cancelButton.hide();
@@ -129,7 +130,7 @@ public class PowerCardScreen extends CustomScreen implements ScrollBarListener {
                 }
             if (this.hoveredCard != null && (this.hoveredCard.hb.clicked || CInputActionSet.select.isJustPressed())) {
                 this.hoveredCard.hb.clicked = false;
-                this.relic.capturedCard = this.hoveredCard.makeStatEquivalentCopy();
+                setRelicsCard(this.hoveredCard.makeStatEquivalentCopy());
                 this.relic.atPreBattle();
                 this.hoveredCard.targetDrawScale = 0.75F;
                 this.hoveredCard.drawScale = 0.875F;
@@ -139,6 +140,25 @@ public class PowerCardScreen extends CustomScreen implements ScrollBarListener {
             }
             if (Settings.isControllerMode && this.controllerCard != null)
                 Gdx.input.setCursorPosition((int)this.controllerCard.hb.cX, (int)(Settings.HEIGHT - this.controllerCard.hb.cY));
+        }
+    }
+
+    private void setRelicsCard(AbstractCard c) {
+        return;
+    }
+
+    @SpirePatch2(clz= PowerCardScreen.class, method= "setRelicsCard", paramtypez = {AbstractCard.class}, requiredModId = "anniv7")
+    public static class SetRelicsCardPatch {
+        @SpireInstrumentPatch
+        public static ExprEditor Instrument() {
+            return new ExprEditor() {
+                @Override
+                public void edit(MethodCall m) throws CannotCompileException {
+                    if (m.getMethodName().equals("return")) {
+                        m.replace("this.relic.capturedCard = c;");
+                    }
+                }
+            };
         }
     }
 
@@ -377,13 +397,25 @@ public class PowerCardScreen extends CustomScreen implements ScrollBarListener {
 
     private AbstractCard controllerCard;
 
-    @SpirePatch2(clz= PowerelicRelic.class, method= "atPreBattle", paramtypez={})
+    @SpirePatch2(cls= "spireCafe.interactables.patrons.powerelic.implementation.powerelicRelic", method= "atPreBattle", paramtypez={}, requiredModId = "anniv7")
     public static class RelicPatch {
-        @SpirePrefixPatch
-        public static void Prefix(PowerelicRelic __instance) {
-            if (__instance.capturedCard == null && !AbstractDungeon.isScreenUp) {
-                openCustomScreen(PowerCardScreen.POWERCARDGRIDSCREEN, __instance);
-            }
+        @SpireInstrumentPatch
+        public static ExprEditor Instrument() {
+            return new ExprEditor() {
+                boolean first = true;
+
+                @Override
+                public void edit(MethodCall m) throws CannotCompileException {
+                    if (first) {
+                        first = false;
+                        m.replace(
+                            "if (this.capturedCard == null && !com.megacrit.cardcrawl.dungeons.AbstractDungeon.isScreenUp) {" +
+                            "    basemod.BaseMod.openCustomScreen(customcafepatchmod.screens.PowerCardScreen.POWERCARDGRIDSCREEN, this)" +
+                            "}" +
+                            "$_ = $proceed($$);");
+                    }
+                }
+            };
         }
     }
 }

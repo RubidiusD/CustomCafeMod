@@ -1,4 +1,5 @@
 customcafepatchmod\patches\ManaTransferAction.class
+customcafepatchmod\screens\PowerCardScreen$SetRelicsCardPatch$1.class
 customcafepatchmod\patches\ManaTransferAction$ManaTransferFix.class
 customcafepatchmod\CustomCafePatchMod.class
 customcafepatchmod\patches\OmegaRecallPreAction$OmegaRecallPowerFix.class
@@ -17,7 +18,9 @@ customcafepatchmod\patches\OmegaRecallPreAction$OmegaRecallPowerFix$1.class
 customcafepatchmod\util\KeywordInfo.class
 customcafepatchmod\util\CustomCafeConfig.class
 customcafepatchmod\patches\CustomDeckPatches.class
+customcafepatchmod\screens\PowerCardScreen$SetRelicsCardPatch.class
 customcafepatchmod\util\TextureLoader$1.class
+customcafepatchmod\screens\PowerCardScreen$RelicPatch$1.class
 customcafepatchmod\patches\OmegaRecallPreAction.class
 customcafepatchmod\screens\PowerCardScreen$RelicPatch.class
 customcafepatchmod\util\CardStats.class
