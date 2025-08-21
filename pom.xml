@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <properties>
-        <modID>customcafepatchmod</modID>
+        <modID>PatchEverything</modID>
         <author>Rubidius \"Rubi\" Dext</author>
 
         <!-- Change the path for your system to match your Steam installation. -->
@@ -23,18 +23,18 @@
     </properties>
 
     <!-- This information will be displayed in ModTheSpire, the modded launcher. -->
-    <name>Custom Deck + Spire Cafe Compatibility Patch</name>
-    <version>0.3.1</version>
+    <name>Everything Patch Mod</name>
+    <version>0.3.2</version>
     <!-- Avoid using \ in this description, as they can cause the description to fail to load. -->
     <!-- If you really want to use them, you'll need to "escape" them by putting another one in front, like \\ -->
-    <description>Because starting with a custom deck and relics wasn't op enough already.</description>
+    <description>If there's a mod that I've used and it has a bug? It's been fixed by this.</description>
 
     <!--You shouldn't need to change anything below this point, but feel free to look at it.-->
     <!--You'll get a warning regarding these when you package your mod, but don't worry, it's just set up like this for convenience.-->
     <!--Technically these should be changed individually, but this allows you to just set it in one place.-->
     <!--Absolutely a no-go for larger projects, but for a personal mod it's fine.-->
-    <groupId>customcafepatchmod</groupId>
-    <artifactId>customcafepatchmod</artifactId>
+    <groupId>everythingpatchmod</groupId>
+    <artifactId>everythingPatchMod</artifactId>
 
     <dependencies>
         <dependency>
@@ -72,7 +72,7 @@
 
     <!-- This is how your code is packaged into the jar file-->
     <build>
-        <finalName>${project.artifactId}</finalName>
+        <finalName>everythingPatchMod</finalName>
         <plugins>
             <plugin>
                 <groupId>com.github.sylvainlaurent.maven</groupId>
@@ -159,9 +159,9 @@
                             <target>
                                 <!--This puts a copy of your mod's jar file into the SlayTheSpire mods folder so it will be loaded.-->
                                 <!--On mac, it will be copied to another location. See further below.-->
-                                <copy file="target/customcafepatchmod.jar" tofile="${steam.path}/common/SlayTheSpire/customcafepatchmod/content/customcafepatchmod.jar"/>
-                                <copy file="target/customcafepatchmod.jar" tofile="${steam.path}/common/SlayTheSpire/mods/customcafepatchmod.jar"/>
-                                <copy file="target/customcafepatchmod.jar" tofile="${steam.path}/workshop/content/646570/3548044797/customcafepatchmod.jar"/>
+                                <copy file="target/everythingPatchMod.jar" tofile="${steam.path}/common/SlayTheSpire/everythingPatchMod/content/everythingPatchMod.jar"/>
+                                <copy file="target/everythingPatchMod.jar" tofile="${steam.path}/common/SlayTheSpire/mods/everythingPatchMod.jar"/>
+                                <copy file="target/everythingPatchMod.jar" tofile="${steam.path}/workshop/content/646570/3548044797/everythingPatchMod.jar"/>
                             </target>
                         </configuration>
                         <goals>
@@ -188,7 +188,7 @@
                     <include>**/*.json</include>
                 </includes>
             </resource>
-            <!-- Filtering replaces certain text like customcafepatchmod with the corresponding value from this file. -->
+            <!-- Filtering replaces certain text like PatchEverything with the corresponding value from this file. -->
         </resources>
     </build>
 
@@ -242,9 +242,9 @@
                                 <configuration>
                                     <target>
                                         <!-- This moves your mod into a common folder where all mods you make can go. -->
-                                        <copy file="target/customcafepatchmod.jar" tofile="${steam.path}/common/SlayTheSpire/customcafepatchmod/content/customcafepatchmod.jar"/>
-                                        <copy file="target/customcafepatchmod.jar" tofile="${steam.path}/common/SlayTheSpire/mods/customcafepatchmod.jar"/>
-                                        <copy file="target/customcafepatchmod.jar" tofile="${steam.path}/workshop/content/646570/3548044797/customcafepatchmod.jar"/>
+                                        <copy file="target/everythingPatchMod.jar" tofile="${steam.path}/common/SlayTheSpire/everythingPatchMod/content/everythingPatchMod.jar"/>
+                                        <copy file="target/everythingPatchMod.jar" tofile="${steam.path}/common/SlayTheSpire/mods/everythingPatchMod.jar"/>
+                                        <copy file="target/everythingPatchMod.jar" tofile="${steam.path}/workshop/content/646570/3548044797/everythingPatchMod.jar"/>
                                     </target>
                                 </configuration>
                                 <goals>

@@ -1,4 +1,4 @@
-package customcafepatchmod.util;
+package PatchEverything.util;
 
 public class KeywordInfo {
     public String ID = "";

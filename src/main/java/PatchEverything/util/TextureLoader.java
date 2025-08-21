@@ -1,4 +1,4 @@
-package customcafepatchmod.util;
+package PatchEverything.util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
@@ -9,7 +9,7 @@ import com.megacrit.cardcrawl.cards.AbstractCard;
 import java.util.HashMap;
 import java.util.Locale;
 
-import static customcafepatchmod.CustomCafePatchMod.*;
+import static PatchEverything.EverythingPatchMod.*;
 
 public class TextureLoader {
     private static final HashMap<String, Texture> textures = new HashMap<>();

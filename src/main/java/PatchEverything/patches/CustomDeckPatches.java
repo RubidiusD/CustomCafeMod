@@ -1,4 +1,4 @@
-package customcafepatchmod.patches;
+package PatchEverything.patches;
 
 import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInstrumentPatch;
@@ -33,7 +33,7 @@ public class CustomDeckPatches {
                         if (!second) {
                             second = true;
                         } else {
-                            m.replace("$_ = $proceed((abstractCard) -> abstractCard.color == com.megacrit.cardcrawl.cards.AbstractCard.CardColor.CURSE || (!customcafepatchmod.util.CustomCafeConfig.includeStatusCards && abstractCard.type == com.megacrit.cardcrawl.cards.AbstractCard.CardType.STATUS));");
+                            m.replace("$_ = $proceed((abstractCard) -> abstractCard.color == com.megacrit.cardcrawl.cards.AbstractCard.CardColor.CURSE || (!PatchEverything.util.EverythingPatchConfig.includeStatusCards && abstractCard.type == com.megacrit.cardcrawl.cards.AbstractCard.CardType.STATUS));");
                             second = false;
                         }
                     }

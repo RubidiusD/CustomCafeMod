@@ -1,5 +1,5 @@
 {
-  "modid": "customcafepatchmod",
+  "modid": "PatchEverything",
   "name": "${project.name}",
   "author_list": ["${author}"],
   "description": "!(project.description)",

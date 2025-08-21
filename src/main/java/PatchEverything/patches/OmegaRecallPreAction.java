@@ -1,4 +1,4 @@
-package customcafepatchmod.patches;
+package PatchEverything.patches;
 
 import com.evacipated.cardcrawl.modthespire.lib.SpireInstrumentPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
@@ -40,7 +40,7 @@ public class OmegaRecallPreAction extends AbstractGameAction {
                 @Override
                 public void edit(MethodCall m) throws CannotCompileException {
                     if (m.getMethodName().equals("addToBot")) {
-                        m.replace("$_ = com.megacrit.cardcrawl.dungeons.AbstractDungeon.actionManager.addToBottom(new customcafepatchmod.patches.OmegaRecallPreAction(this.amount));");
+                        m.replace("$_ = com.megacrit.cardcrawl.dungeons.AbstractDungeon.actionManager.addToBottom(new PatchEverything.patches.OmegaRecallPreAction(this.amount));");
                     }
                 }
             };

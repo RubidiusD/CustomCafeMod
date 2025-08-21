@@ -1,4 +1,4 @@
-package customcafepatchmod.patches;
+package PatchEverything.patches;
 
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
@@ -45,7 +45,7 @@ public class ManaTransferAction extends AbstractGameAction {
 //                @Override
 //                public void edit(MethodCall m) throws CannotCompileException {
 //                    if (first) {
-//                        m.replace("$_ = null; com.megacrit.cardcrawl.dungeons.AbstractDungeon.actionManager.addToBottom(new customcafepatchmod.patches.ManaTransferAction(com.megacrit.cardcrawl.dungeons.AbstractDungeon.player));");
+//                        m.replace("$_ = null; com.megacrit.cardcrawl.dungeons.AbstractDungeon.actionManager.addToBottom(new PatchEverything.patches.ManaTransferAction(com.megacrit.cardcrawl.dungeons.AbstractDungeon.player));");
 //                        first = false;
 //                    }
 //                    else {

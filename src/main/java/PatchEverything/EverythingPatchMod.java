@@ -1,12 +1,12 @@
-package customcafepatchmod;
+package PatchEverything;
 
 import basemod.BaseMod;
 import basemod.interfaces.*;
-import customcafepatchmod.screens.PowerCardScreen;
-import customcafepatchmod.util.CustomCafeConfig;
-import customcafepatchmod.util.GeneralUtils;
-import customcafepatchmod.util.KeywordInfo;
-import customcafepatchmod.util.TextureLoader;
+import PatchEverything.screens.PowerCardScreen;
+import PatchEverything.util.EverythingPatchConfig;
+import PatchEverything.util.GeneralUtils;
+import PatchEverything.util.KeywordInfo;
+import PatchEverything.util.TextureLoader;
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl.LwjglFileHandle;
 import com.badlogic.gdx.files.FileHandle;
@@ -17,18 +17,16 @@ import com.evacipated.cardcrawl.modthespire.Patcher;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.localization.*;
-import javassist.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.scannotation.AnnotationDB;
 
-import java.io.IOException;
 import java.util.*;
 
 import static basemod.BaseMod.addCustomScreen;
 
 @SpireInitializer
-public class CustomCafePatchMod implements
+public class EverythingPatchMod implements
         PostInitializeSubscriber {
     public static ModInfo info;
     public static String modID; //Edit your pom.xml to change this
@@ -38,10 +36,10 @@ public class CustomCafePatchMod implements
 
     //This will be called by ModTheSpire because of the @SpireInitializer annotation at the top of the class.
     public static void initialize() {
-        new CustomCafePatchMod();
+        new EverythingPatchMod();
     }
 
-    public CustomCafePatchMod() {
+    public EverythingPatchMod() {
         BaseMod.subscribe(this); //This will make BaseMod trigger all the subscribers at their appropriate times.
         logger.info(modID + " subscribed to BaseMod.");
     }
@@ -55,14 +53,14 @@ public class CustomCafePatchMod implements
 
         //If you want to set up a config panel, that will be done here.
         //You can find information about this on the BaseMod wiki page "Mod Config and Panel".
-        BaseMod.registerModBadge(badgeTexture, info.Name, GeneralUtils.arrToString(info.Authors), info.Description, new CustomCafeConfig());
+        BaseMod.registerModBadge(badgeTexture, info.Name, GeneralUtils.arrToString(info.Authors), info.Description, new EverythingPatchConfig());
         addCustomScreen(new PowerCardScreen());
 
 //        ClassPool pool = ClassPool.getDefault();
 //        try {
 //            CtClass cc = pool.get("fakermod.cards.saber.ManaTransfer");
 //            CtMethod m = cc.getDeclaredMethod("use");
-//            m.setBody("com.megacrit.cardcrawl.dungeons.AbstractDungeon.actionManager.addToBottom(new customcafepatchmod.patches.ManaTransferAction(com.megacrit.cardcrawl.dungeons.AbstractDungeon.player));");
+//            m.setBody("com.megacrit.cardcrawl.dungeons.AbstractDungeon.actionManager.addToBottom(new PatchEverything.patches.ManaTransferAction(com.megacrit.cardcrawl.dungeons.AbstractDungeon.player));");
 //            cc.writeFile();
 //            System.out.println("------------------------------------Mana Transfer Patched Successfully. -------------");
 //        } catch (NotFoundException e) {
@@ -118,7 +116,7 @@ public class CustomCafePatchMod implements
      * Checks the expected resources path based on the package name.
      */
     private static String checkResourcesPath() {
-        String name = CustomCafePatchMod.class.getName(); //getPackage can be iffy with patching, so class name is used instead.
+        String name = EverythingPatchMod.class.getName(); //getPackage can be iffy with patching, so class name is used instead.
         int separator = name.indexOf('.');
         if (separator > 0)
             name = name.substring(0, separator);
@@ -129,7 +127,7 @@ public class CustomCafePatchMod implements
             throw new RuntimeException("\n\tFailed to find resources folder; expected it to be at  \"resources/" + name + "\"." +
                     " Either make sure the folder under resources has the same name as your mod's package, or change the line\n" +
                     "\t\"private static final String resourcesFolder = checkResourcesPath();\"\n" +
-                    "\tat the top of the " + CustomCafePatchMod.class.getSimpleName() + " java file.");
+                    "\tat the top of the " + EverythingPatchMod.class.getSimpleName() + " java file.");
         }
         if (!resources.child("images").exists()) {
             throw new RuntimeException("\n\tFailed to find the 'images' folder in the mod's 'resources/" + name + "' folder; Make sure the " +
@@ -152,7 +150,7 @@ public class CustomCafePatchMod implements
             if (annotationDB == null)
                 return false;
             Set<String> initializers = annotationDB.getAnnotationIndex().getOrDefault(SpireInitializer.class.getName(), Collections.emptySet());
-            return initializers.contains(CustomCafePatchMod.class.getName());
+            return initializers.contains(EverythingPatchMod.class.getName());
         }).findFirst();
         if (infos.isPresent()) {
             info = infos.get();

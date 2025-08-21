@@ -1,4 +1,4 @@
-package customcafepatchmod.util;
+package PatchEverything.util;
 
 import com.megacrit.cardcrawl.cards.AbstractCard;
 

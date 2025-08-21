@@ -1,4 +1,4 @@
-package customcafepatchmod.screens;
+package PatchEverything.screens;
 
 import basemod.abstracts.CustomScreen;
 import com.badlogic.gdx.Gdx;
@@ -155,7 +155,7 @@ public class PowerCardScreen extends CustomScreen implements ScrollBarListener {
                 @Override
                 public void edit(MethodCall m) throws CannotCompileException {
                     if (m.getMethodName().equals("return")) {
-                        m.replace("this.relic.capturedCard = c;");
+                        m.replace("((spireCafe.interactables.patrons.powerelic.implementation.PowerelicRelic) this.relic).capturedCard = c;");
                     }
                 }
             };
@@ -410,7 +410,7 @@ public class PowerCardScreen extends CustomScreen implements ScrollBarListener {
                         first = false;
                         m.replace(
                             "if (this.capturedCard == null && !com.megacrit.cardcrawl.dungeons.AbstractDungeon.isScreenUp) {" +
-                            "    basemod.BaseMod.openCustomScreen(customcafepatchmod.screens.PowerCardScreen.POWERCARDGRIDSCREEN, this)" +
+                            "    basemod.BaseMod.openCustomScreen(PatchEverything.screens.PowerCardScreen.POWERCARDGRIDSCREEN, this)" +
                             "}" +
                             "$_ = $proceed($$);");
                     }

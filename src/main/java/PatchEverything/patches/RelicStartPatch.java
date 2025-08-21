@@ -1,4 +1,4 @@
-package customcafepatchmod.patches;
+package PatchEverything.patches;
 
 import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
@@ -8,7 +8,7 @@ import com.megacrit.cardcrawl.relics.AbstractRelic;
 
 import java.util.ArrayList;
 
-import static customcafepatchmod.util.CustomCafeConfig.includeEventRelics;
+import static PatchEverything.util.EverythingPatchConfig.includeEventRelics;
 
 @SpirePatch2(cls= "CustomStart.CustomRunMods.Relicselectscreen", method= "open", paramtypez = {}, requiredModId = "CustomStart")
 public class RelicStartPatch {
