@@ -10,8 +10,10 @@ import javassist.expr.MethodCall;
 
 import java.util.ArrayList;
 
+import static PatchEverything.util.EverythingPatchConfig.includeStatusCards;
+
 public class CustomDeckPatches {
-    @SpirePatch2(cls= "CustomStart.CustomRunMods.CustomDeckScreenBase.CustomDeckScreen", method= "open", paramtypez = {}, requiredModId = "CustomStart")
+    @SpirePatch2(cls= "CustomStart.CustomRunMods.CustomDeckScreenBase$CustomDeckScreen", method= "open", paramtypez = {}, requiredModId = "CustomStart")
     public static class OrderingPatch {
         @SpireInsertPatch(rloc= 5)
         public static void Insert(ArrayList<AbstractCard.CardColor> ___colorList) {
@@ -20,21 +22,23 @@ public class CustomDeckPatches {
         }
     }
 
-    @SpirePatch2(cls= "CustomStart.CustomRunMods.CustomDeckScreenBase.CustomDeckScreen", method= "InitCardList", paramtypez = {AbstractCard.CardColor.class}, requiredModId = "CustomStart")
+    public static void CleanseCardList(ArrayList<AbstractCard> cardList) {
+        cardList.removeIf((abstractCard) -> abstractCard.color == AbstractCard.CardColor.CURSE || (!includeStatusCards && abstractCard.type == AbstractCard.CardType.STATUS));
+    }
+
+    @SpirePatch2(cls= "CustomStart.CustomRunMods.CustomDeckScreenBase$CustomDeckScreen", method= "InitCardList", paramtypez = {AbstractCard.CardColor.class}, requiredModId = "CustomStart")
     public static class IncludeStatusCardsPatch {
         @SpireInstrumentPatch
         public static ExprEditor Instrument() {
             return new ExprEditor() {
-                boolean second = false;
+                int line = 0;
 
                 @Override
                 public void edit(MethodCall m) throws CannotCompileException {
                     if (m.getMethodName().equals("removeIf")) {
-                        if (!second) {
-                            second = true;
-                        } else {
-                            m.replace("$_ = $proceed((abstractCard) -> abstractCard.color == com.megacrit.cardcrawl.cards.AbstractCard.CardColor.CURSE || (!PatchEverything.util.EverythingPatchConfig.includeStatusCards && abstractCard.type == com.megacrit.cardcrawl.cards.AbstractCard.CardType.STATUS));");
-                            second = false;
+                        line ++;
+                        if (line == 2) {
+                            m.replace("$_ = PatchEverything.patches.CustomDeckPatches.CleanseCardList(cardList);");
                         }
                     }
                 }

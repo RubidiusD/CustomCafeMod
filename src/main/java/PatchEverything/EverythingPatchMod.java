@@ -1,5 +1,6 @@
 package PatchEverything;
 
+import PatchEverything.patches.BuxomPatches;
 import basemod.BaseMod;
 import basemod.interfaces.*;
 import PatchEverything.screens.PowerCardScreen;
@@ -55,6 +56,10 @@ public class EverythingPatchMod implements
         //You can find information about this on the BaseMod wiki page "Mod Config and Panel".
         BaseMod.registerModBadge(badgeTexture, info.Name, GeneralUtils.arrToString(info.Authors), info.Description, new EverythingPatchConfig());
         addCustomScreen(new PowerCardScreen());
+
+        if (Loader.isModLoaded("BuxomMod")) {
+            BuxomPatches.ReplacePatches();
+        }
 
 //        ClassPool pool = ClassPool.getDefault();
 //        try {

@@ -1,5 +1,6 @@
 package PatchEverything.screens;
 
+import basemod.BaseMod;
 import basemod.abstracts.CustomScreen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -397,7 +398,11 @@ public class PowerCardScreen extends CustomScreen implements ScrollBarListener {
 
     private AbstractCard controllerCard;
 
-    @SpirePatch2(cls= "spireCafe.interactables.patrons.powerelic.implementation.powerelicRelic", method= "atPreBattle", paramtypez={}, requiredModId = "anniv7")
+    public static void openWithExtraSteps(AbstractRelic r) {
+        BaseMod.openCustomScreen(POWERCARDGRIDSCREEN, r);
+    }
+
+    @SpirePatch2(cls= "spireCafe.interactables.patrons.powerelic.implementation.PowerelicRelic", method= "atPreBattle", paramtypez={}, requiredModId = "anniv7")
     public static class RelicPatch {
         @SpireInstrumentPatch
         public static ExprEditor Instrument() {
@@ -410,9 +415,11 @@ public class PowerCardScreen extends CustomScreen implements ScrollBarListener {
                         first = false;
                         m.replace(
                             "if (this.capturedCard == null && !com.megacrit.cardcrawl.dungeons.AbstractDungeon.isScreenUp) {" +
-                            "    basemod.BaseMod.openCustomScreen(PatchEverything.screens.PowerCardScreen.POWERCARDGRIDSCREEN, this)" +
+                            "    PatchEverything.screens.PowerCardScreen.openWithExtraSteps(this);" +
                             "}" +
                             "$_ = $proceed($$);");
+
+
                     }
                 }
             };
