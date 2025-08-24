@@ -1,50 +1,49 @@
 package PatchEverything.patches;
 
-import com.evacipated.cardcrawl.modthespire.lib.SpireField;
-import com.evacipated.cardcrawl.modthespire.lib.SpireInstrumentPatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
+import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import javassist.*;
-import javassist.expr.Cast;
-import javassist.expr.ExprEditor;
-import javassist.expr.FieldAccess;
-import javassist.expr.MethodCall;
+import javassist.expr.*;
 
 public class BuxomPatches {
-    @SpirePatch2(clz= AbstractPlayer.class, method= SpirePatch.CLASS, requiredModId = "BuxomMod")
-    public static class NakedField {
-        public static SpireField<Boolean> naked = new SpireField<>(() -> false);
+    @SpirePatch2(cls= "com.megacrit.cardcrawl.characters.AbstractPlayer", method= SpirePatch.CLASS, requiredModId = "BuxomMod")
+    public static class George {
+        public static SpireField<AbstractPlayer> george = new SpireField<>(() -> null);
+
+        public static AbstractPlayer get() {
+            AbstractPlayer g = George.george.get(AbstractDungeon.player);
+            if (g == null) {George.george.set(AbstractDungeon.player, g);}
+            return g;
+        }
     }
 
-    public static void setNaked(boolean naked) {
-        NakedField.naked.set(AbstractDungeon.player, naked);
-    }
-
-    public static boolean getNaked() {
-        return NakedField.naked.get(AbstractDungeon.player);
-    }
-
-    @SpirePatch2(cls= "BuxomMod.ui.BraManager", method= "onStartCombat", paramtypez = {}, requiredModId = "BuxomMod")
-    public static class RemoveNakedOne {
-        @SpireInstrumentPatch() public static ExprEditor Instrument() {
-            return new ExprViewer() {
-                @Override public void edit(FieldAccess f) throws CannotCompileException {
-                    super.edit(f);
-
-                    if (f.getFieldName().equals("naked")) {
-                        f.replace("$_ = PatchEverything.patches.BuxomPatches.getNaked();");
+    @SpirePatch2(cls = "PatchEverything.patches.BuxomPatches$George", method= "get", requiredModId = "BuxomMod")
+    public static class NewGeorge {
+        @SpireInstrumentPatch public static ExprEditor Instrument() {
+            return new ExprEditor() {
+                @Override
+                public void edit(MethodCall m) throws CannotCompileException {
+                    if (m.getMethodName().equals("set")) {
+                        m.replace("g = new BuxomMod.characters.TheBuxom(\"George\", BuxomMod.characters.TheBuxom.Enums.THE_BUXOM); $_ = $proceed($$);");
                     }
                 }
+            };
+        }
+    }
 
+    @SpirePatches2({
+            @SpirePatch2(cls= "BuxomMod.powers.ExposedPower", method= "atEndOfRound", paramtypez = {}, requiredModId = "BuxomMod"),
+            @SpirePatch2(cls= "BuxomMod.ui.BraManager", method= "changeNaked", paramtypez = {boolean.class}, requiredModId = "BuxomMod")
+    })
+    public static class RemoveGetNaked {
+        @SpireInstrumentPatch public static ExprEditor Instrument() {
+            return new ExprEditor() {
                 @Override public void edit(Cast c) throws CannotCompileException {
-                    super.edit(c);
-
                     try {
                         if (c.getType().getSimpleName().equals("TheBuxom"))
-                            c.replace("$_ = null;");
+                            c.replace("$_ = (BuxomMod.characters.TheBuxom)PatchEverything.patches.BuxomPatches.George.get();");
                     } catch (NotFoundException e) {
                         throw new RuntimeException(e);
                     }
@@ -53,79 +52,24 @@ public class BuxomPatches {
         }
     }
 
-    @SpirePatch2(cls= "BuxomMod.ui.BraManager", method= "changeNaked", paramtypez = {boolean.class}, requiredModId = "BuxomMod")
-    public static class RemoveNakedTwo {
+    @SpirePatch2(cls= "BuxomMod.ui.BraManager", method= "onStartCombat", paramtypez = {}, requiredModId = "BuxomMod")
+    public static class DontAlwaysAddBuxom {
         @SpireInstrumentPatch public static ExprEditor Instrument() {
             return new ExprEditor() {
                 boolean first = true;
 
-                @Override public void edit(MethodCall m) throws CannotCompileException {
-                    if (first) {
+                @Override
+                public void edit(MethodCall m) throws CannotCompileException {
+                    if (m.getMethodName().equals("addToBottom") && first) {
                         first = false;
-                        m.replace("$_ = null; {" +
-                            "    if (naked) {" +
-                            "        PatchEverything.patches.BuxomPatches.setNaked(true);" +
-                            "        if (com.megacrit.cardcrawl.dungeons.AbstractDungeon.player.chosenClass.equals(BuxomMod.characters.TheBuxom.Enums.THE_BUXOM)) {" +
-                            "            ((BuxomMod.characters.TheBuxom) com.megacrit.cardcrawl.dungeons.AbstractDungeon.player).naked = true;" +
-                            "        }" +
-                            "        com.megacrit.cardcrawl.dungeons.AbstractDungeon.actionManager.addToBottom(new com.megacrit.cardcrawl.actions.common.ApplyPowerAction(com.megacrit.cardcrawl.dungeons.AbstractDungeon.player, com.megacrit.cardcrawl.dungeons.AbstractDungeon.player, new BuxomMod.powers.ExposedPower(com.megacrit.cardcrawl.dungeons.AbstractDungeon.player, com.megacrit.cardcrawl.dungeons.AbstractDungeon.player, -1), -1)); " +
-                            "    } else {" +
-                            "        PatchEverything.patches.BuxomPatches.setNaked(false);" +
-                            "        if (com.megacrit.cardcrawl.dungeons.AbstractDungeon.player.chosenClass.equals(BuxomMod.characters.TheBuxom.Enums.THE_BUXOM)) {" +
-                            "            ((BuxomMod.characters.TheBuxom) com.megacrit.cardcrawl.dungeons.AbstractDungeon.player).naked = false;" +
-                            "        }" +
-                            "        com.megacrit.cardcrawl.dungeons.AbstractDungeon.actionManager.addToBottom(new com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction(com.megacrit.cardcrawl.dungeons.AbstractDungeon.player, com.megacrit.cardcrawl.dungeons.AbstractDungeon.player, BuxomMod.powers.ExposedPower.POWER_ID));" +
-                            "    }" +
-                            "}");
-                    }
-                    else {
-                        m.replace("$_ = null;");
-                    }
-                }
-            };
-        }
-    }
-
-    @SpirePatch2(cls= "BuxomMod.ui.BraManager", method= "onGrow", paramtypez = {int.class}, requiredModId = "BuxomMod")
-    public static class RemoveBeginGrow {
-        @SpireInstrumentPatch public static ExprEditor Instrument() {
-            return new ExprEditor() {
-                @Override public void edit(MethodCall m) throws CannotCompileException {
-                    if (m.getMethodName().equals("beginGrowth")) {
-                        m.replace("System.out.println(\"Removed the beginGrow\"); $_ = null;");
-                    }
-                }
-            };
-        }
-    }
-
-    @SpirePatch2(cls= "BuxomMod.ui.BraManager", method= "onShrink", paramtypez = {int.class}, requiredModId = "BuxomMod")
-    public static class RemoveBeginShrink {
-        @SpireInstrumentPatch public static ExprEditor Instrument() {
-            return new ExprEditor() {
-                @Override public void edit(MethodCall m) throws CannotCompileException {
-                    if (m.getMethodName().equals("beginShrink")) {
-                        m.replace("System.out.println(\"Removed the beginShrink\"); $_ = null;");
-                    }
-                }
-            };
-        }
-    }
-
-    @SpirePatch2(cls= "BuxomMod.powers.ExposedPower", method= "atEndOfRound", paramtypez = {}, requiredModId = "BuxomMod")
-    public static class NoLongerExposed {
-        @SpireInstrumentPatch public static ExprEditor Instrument() {
-            return new ExprEditor() {
-                @Override public void edit(FieldAccess f) throws CannotCompileException {
-                    if (f.getFieldName().equals("naked")) {
-                        f.replace("$_ = PatchEverything.patches.BuxomPatches.getNaked();");
+                        m.replace("if (this.permaSize == 0) {$_ = null;} else {$_ = $proceed($$);}");
                     }
                 }
 
                 @Override public void edit(Cast c) throws CannotCompileException {
                     try {
                         if (c.getType().getSimpleName().equals("TheBuxom"))
-                            c.replace("$_ = null;");
+                            c.replace("$_ = (BuxomMod.characters.TheBuxom)PatchEverything.patches.BuxomPatches.George.get();");
                     } catch (NotFoundException e) {
                         throw new RuntimeException(e);
                     }
@@ -134,56 +78,62 @@ public class BuxomPatches {
         }
     }
 
-    @SpirePatch2(cls= "BuxomMod.BuxomMod", method= "receiveOnBattleStart", paramtypez = {AbstractRoom.class}, requiredModId = "BuxomMod")
-    public static class BattleStartBra {
+    @SpirePatch2(cls= "BuxomMod.ui.BraManager", method= "startGame", paramtypez = {}, requiredModId = "BuxomMod")
+    public static class StartingBuxom {
         @SpireInstrumentPatch public static ExprEditor Instrument() {
             return new ExprEditor() {
-                private boolean first = true;
+                boolean first = true;
 
-                @Override public void edit(MethodCall m) throws CannotCompileException {
-                    if (first) {
-                        m.replace("$_ = null; BuxomMod.BuxomMod.braManager.onStartCombat();");
+                @Override public void edit(FieldAccess f) throws CannotCompileException {
+                    if (f.getFieldName().equals("permaSizeStart") && first) {
                         first = false;
-                    } else {
-                        m.replace("$_ = null;");
+                        f.replace("$_ = $proceed($$); if (!(com.megacrit.cardcrawl.dungeons.AbstractDungeon.player instanceof BuxomMod.characters.TheBuxom)) {this.permaSizeStart = 0;}");
+                    }
+
+                    else if (f.getFieldName().equals("straining")) {
+                        f.replace("$_ = $proceed($$); PatchEverything.patches.BuxomPatches.George.george.set(com.megacrit.cardcrawl.dungeons.AbstractDungeon.player, new BuxomMod.characters.TheBuxom(\"George\", BuxomMod.characters.TheBuxom.Enums.THE_BUXOM));");
                     }
                 }
             };
         }
     }
 
-    @SpirePatch2(cls= "BuxomMod.BuxomMod", method= "receiveOnPlayerTurnStart", paramtypez = {}, requiredModId = "BuxomMod")
-    public static class TurnStartBra {
+    @SpirePatches2({
+            @SpirePatch2(cls= "BuxomMod.ui.BraManager", method= "onGrow", paramtypez = {int.class}, requiredModId = "BuxomMod"),
+            @SpirePatch2(cls= "BuxomMod.ui.BraManager", method= "onShrink", paramtypez = {int.class}, requiredModId = "BuxomMod")
+    })
+    public static class OnlyAnimateBuxom {
         @SpireInstrumentPatch public static ExprEditor Instrument() {
             return new ExprEditor() {
-                private boolean first = true;
-
                 @Override public void edit(MethodCall m) throws CannotCompileException {
-                    if (first) {
-                        m.replace("$_ = null; BuxomMod.BuxomMod.braManager.onTurnStart();");
-                        first = false;
-                    } else {
-                        m.replace("$_ = null;");
+                    if (m.getMethodName().equals("beginGrowth") || m.getMethodName().equals("beginShrink")) {
+                        m.replace("$_ = null; if (com.megacrit.cardcrawl.dungeons.AbstractDungeon.player instanceof BuxomMod.characters.TheBuxom) {$proceed($$);}");
+                    }
+                }
+
+                @Override public void edit(Cast c) throws CannotCompileException {
+                    try {
+                        if (c.getType().getSimpleName().equals("TheBuxom"))
+                            c.replace("$_ = (BuxomMod.characters.TheBuxom)PatchEverything.patches.BuxomPatches.George.get();");
+                    } catch (NotFoundException e) {
+                        throw new RuntimeException(e);
                     }
                 }
             };
         }
     }
 
-    public static void ReplacePatches() {
-//        ClassPool pool = ClassPool.getDefault();
-//        try {
-//            CtClass cc = pool.get("fakermod.cards.saber.ManaTransfer");
-//            CtMethod m = cc.getDeclaredMethod("use");
-//            m.setBody("com.megacrit.cardcrawl.dungeons.AbstractDungeon.actionManager.addToBottom(new PatchEverything.patches.ManaTransferAction(com.megacrit.cardcrawl.dungeons.AbstractDungeon.player));");
-//            cc.writeFile();
-//            System.out.println("------------------------------------Mana Transfer Patched Successfully. -------------");
-//        } catch (NotFoundException e) {
-//            System.out.println("------------------------------------Mana Transfer not Found. -------------");
-//        } catch (CannotCompileException e) {
-//            System.out.println("------------------------------------Mana Transfer not Compiling. -------------");
-//        } catch (IOException e) {
-//            System.out.println("------------------------------------Mana Transfer not Being Happy. -------------");
-//        }
+    @SpirePatches2({
+            @SpirePatch2(cls= "BuxomMod.BuxomMod", method= "receiveOnBattleStart", paramtypez = {AbstractRoom.class}, requiredModId = "BuxomMod"),
+            @SpirePatch2(cls= "BuxomMod.BuxomMod", method= "receiveOnPlayerTurnStart", paramtypez = {}, requiredModId = "BuxomMod")
+    })
+    public static class DoItAnyway {
+        @SpireInstrumentPatch public static ExprEditor Instrument() {
+            return new ExprEditor() {
+                @Override public void edit(Instanceof i) throws CannotCompileException {
+                    i.replace("$_ = true;");
+                }
+            };
+        }
     }
 }

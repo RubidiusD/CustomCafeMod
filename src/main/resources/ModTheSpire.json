@@ -1,11 +1,11 @@
 {
   "modid": "PatchEverything",
-  "name": "${project.name}",
-  "author_list": ["${author}"],
+  "name": "Everything Patch Mod",
+  "author_list": ["Rubidius \\\"Rubi\\\" Dext"],
   "description": "!(project.description)",
   "version": "${project.version}",
-  "sts_version": "${SlayTheSpire.version}",
-  "mts_version": "${ModTheSpire.version}",
+  "sts_version": "12-18-2022",
+  "mts_version": "3.30.0",
   "dependencies": ["basemod", "stslib"],
   "update_json": ""
 }

@@ -2,7 +2,6 @@
 <project name="maven-antrun-" default="main">
   <target name="main">
     <copy file="target/everythingPatchMod.jar" tofile="C:/Program Files (x86)/steam/steamapps/common/SlayTheSpire/everythingPatchMod/content/everythingPatchMod.jar" />
-    <copy file="target/everythingPatchMod.jar" tofile="C:/Program Files (x86)/steam/steamapps/common/SlayTheSpire/mods/everythingPatchMod.jar" />
     <copy file="target/everythingPatchMod.jar" tofile="C:/Program Files (x86)/steam/steamapps/workshop/content/646570/3548044797/everythingPatchMod.jar" />
   </target>
 </project>

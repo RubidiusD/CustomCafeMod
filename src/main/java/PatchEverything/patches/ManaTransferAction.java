@@ -1,13 +1,12 @@
 package PatchEverything.patches;
 
+import com.evacipated.cardcrawl.mod.stslib.actions.defect.EvokeSpecificOrbAction;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
-import com.megacrit.cardcrawl.actions.defect.IncreaseMaxOrbAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.megacrit.cardcrawl.orbs.AbstractOrb;
 
 
 public class ManaTransferAction extends AbstractGameAction {
@@ -15,16 +14,17 @@ public class ManaTransferAction extends AbstractGameAction {
 
     @Override
     public void update() {
-        int i = 0;
+        int n = 0;
         AbstractPlayer p = (AbstractPlayer)this.source;
-        for (AbstractOrb o : p.orbs) {
-            if (o.ID.equals("FakerMod:AP")) {
-                i ++;
+        for (int i = 0; i < AbstractDungeon.player.orbs.size(); i++) {
+            if (AbstractDungeon.player.orbs.get(i).ID.equals("FakerMod:AP")) {
+                addToTop(new EvokeSpecificOrbAction(AbstractDungeon.player.orbs.get(i)));
+                n ++;
             }
         }
-        p.orbs.removeIf((o1) -> o1.ID.equals("FakerMod:AP"));
-        System.out.println("Found " + i + " AP orbs.");
-        addToTop(new IncreaseMaxOrbAction(i));
+        System.out.println("Found " + n + " AP orbs.");
+//        addToTop(new IncreaseMaxOrbAction(n));
+        p.increaseMaxOrbSlots(n, true);
 
         isDone = true;
     }
@@ -35,24 +35,4 @@ public class ManaTransferAction extends AbstractGameAction {
             AbstractDungeon.actionManager.addToBottom(new ManaTransferAction(p));
         }
     }
-
-//    @SpirePatch(cls= "fakermod.cards.saber.ManaTransfer", method= "use", requiredModId = "FakerMod")
-//    public static class ManaTransferFix {
-//        @SpireInstrumentPatch()
-//        public static ExprEditor Instrument() {
-//            return new ExprEditor() {
-//                boolean first = true;
-//                @Override
-//                public void edit(MethodCall m) throws CannotCompileException {
-//                    if (first) {
-//                        m.replace("$_ = null; com.megacrit.cardcrawl.dungeons.AbstractDungeon.actionManager.addToBottom(new PatchEverything.patches.ManaTransferAction(com.megacrit.cardcrawl.dungeons.AbstractDungeon.player));");
-//                        first = false;
-//                    }
-//                    else {
-//                        m.replace("$_ = null;");
-//                    }
-//                }
-//            };
-//        }
-//    }
 }

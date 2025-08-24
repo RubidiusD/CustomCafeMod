@@ -1,6 +1,5 @@
 package PatchEverything;
 
-import PatchEverything.patches.BuxomPatches;
 import basemod.BaseMod;
 import basemod.interfaces.*;
 import PatchEverything.screens.PowerCardScreen;
@@ -16,6 +15,7 @@ import com.evacipated.cardcrawl.modthespire.Loader;
 import com.evacipated.cardcrawl.modthespire.ModInfo;
 import com.evacipated.cardcrawl.modthespire.Patcher;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
+import com.evacipated.cardcrawl.modthespire.lib.SpireSideload;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.localization.*;
 import org.apache.logging.log4j.LogManager;
@@ -27,6 +27,7 @@ import java.util.*;
 import static basemod.BaseMod.addCustomScreen;
 
 @SpireInitializer
+@SpireSideload(modIDs = {"justclick"})
 public class EverythingPatchMod implements
         PostInitializeSubscriber {
     public static ModInfo info;
@@ -56,25 +57,6 @@ public class EverythingPatchMod implements
         //You can find information about this on the BaseMod wiki page "Mod Config and Panel".
         BaseMod.registerModBadge(badgeTexture, info.Name, GeneralUtils.arrToString(info.Authors), info.Description, new EverythingPatchConfig());
         addCustomScreen(new PowerCardScreen());
-
-        if (Loader.isModLoaded("BuxomMod")) {
-            BuxomPatches.ReplacePatches();
-        }
-
-//        ClassPool pool = ClassPool.getDefault();
-//        try {
-//            CtClass cc = pool.get("fakermod.cards.saber.ManaTransfer");
-//            CtMethod m = cc.getDeclaredMethod("use");
-//            m.setBody("com.megacrit.cardcrawl.dungeons.AbstractDungeon.actionManager.addToBottom(new PatchEverything.patches.ManaTransferAction(com.megacrit.cardcrawl.dungeons.AbstractDungeon.player));");
-//            cc.writeFile();
-//            System.out.println("------------------------------------Mana Transfer Patched Successfully. -------------");
-//        } catch (NotFoundException e) {
-//            System.out.println("------------------------------------Mana Transfer not Found. -------------");
-//        } catch (CannotCompileException e) {
-//            System.out.println("------------------------------------Mana Transfer not Compiling. -------------");
-//        } catch (IOException e) {
-//            System.out.println("------------------------------------Mana Transfer not Being Happy. -------------");
-//        }
     }
 
     /*----------Localization----------*/

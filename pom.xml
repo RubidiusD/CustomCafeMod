@@ -24,7 +24,7 @@
 
     <!-- This information will be displayed in ModTheSpire, the modded launcher. -->
     <name>Everything Patch Mod</name>
-    <version>0.3.3</version>
+    <version>0.3.4</version>
     <!-- Avoid using \ in this description, as they can cause the description to fail to load. -->
     <!-- If you really want to use them, you'll need to "escape" them by putting another one in front, like \\ -->
     <description>If there's a mod that I've used and it has a bug? It's been fixed by this.</description>
@@ -40,14 +40,14 @@
         <dependency>
             <groupId>com.megacrit.cardcrawl</groupId>
             <artifactId>slaythespire</artifactId>
-            <version>${SlayTheSpire.version}</version>
+            <version>12-18-2022</version>
             <scope>system</scope>
             <systemPath>${steam.path}${sts.path}</systemPath>
         </dependency>
         <dependency>
             <groupId>com.evacipated.cardcrawl</groupId>
             <artifactId>modthespire</artifactId>
-            <version>${ModTheSpire.version}</version>
+            <version>3.30.0</version>
             <scope>system</scope>
             <systemPath>${steam.path}/workshop/content/646570/1605060445/ModTheSpire.jar</systemPath>
         </dependency>
@@ -160,7 +160,7 @@
                                 <!--This puts a copy of your mod's jar file into the SlayTheSpire mods folder so it will be loaded.-->
                                 <!--On mac, it will be copied to another location. See further below.-->
                                 <copy file="target/everythingPatchMod.jar" tofile="${steam.path}/common/SlayTheSpire/everythingPatchMod/content/everythingPatchMod.jar"/>
-                                <copy file="target/everythingPatchMod.jar" tofile="${steam.path}/common/SlayTheSpire/mods/everythingPatchMod.jar"/>
+<!--                                <copy file="target/everythingPatchMod.jar" tofile="${steam.path}/common/SlayTheSpire/mods/everythingPatchMod.jar"/>-->
                                 <copy file="target/everythingPatchMod.jar" tofile="${steam.path}/workshop/content/646570/3548044797/everythingPatchMod.jar"/>
                             </target>
                         </configuration>
@@ -243,7 +243,7 @@
                                     <target>
                                         <!-- This moves your mod into a common folder where all mods you make can go. -->
                                         <copy file="target/everythingPatchMod.jar" tofile="${steam.path}/common/SlayTheSpire/everythingPatchMod/content/everythingPatchMod.jar"/>
-                                        <copy file="target/everythingPatchMod.jar" tofile="${steam.path}/common/SlayTheSpire/mods/everythingPatchMod.jar"/>
+<!--                                        <copy file="target/everythingPatchMod.jar" tofile="${steam.path}/common/SlayTheSpire/mods/everythingPatchMod.jar"/>-->
                                         <copy file="target/everythingPatchMod.jar" tofile="${steam.path}/workshop/content/646570/3548044797/everythingPatchMod.jar"/>
                                     </target>
                                 </configuration>
