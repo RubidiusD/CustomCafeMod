@@ -18,5 +18,10 @@
       "includeEventRelics": "Include Event Relics in Custom Start",
       "includeStatusCards": "Include Status Cards in Custom Start"
     }
+  },
+  "PatchEverything:PowerTotalPatches": {
+    "TEXT": [
+      " For a total of #b"
+    ]
   }
 }
