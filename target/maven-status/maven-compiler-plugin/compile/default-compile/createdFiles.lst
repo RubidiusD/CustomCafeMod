@@ -4,7 +4,6 @@ PatchEverything\util\EverythingPatchConfig.class
 PatchEverything\patches\OmegaRecallPreAction$OmegaRecallPowerFix$1.class
 PatchEverything\screens\PowerCardScreen$RelicPatch$1.class
 PatchEverything\patches\CustomDeckPatches$IncludeStatusCardsPatch.class
-PatchEverything\patches\PowerTotalPatches$RegenTotalPatch.class
 PatchEverything\util\CardStats.class
 PatchEverything\util\KeywordInfo.class
 PatchEverything\patches\RelicStartPatch.class
@@ -17,7 +16,6 @@ PatchEverything\patches\BuxomPatches$RemoveGetNaked$1.class
 PatchEverything\patches\CardCopyPatch.class
 PatchEverything\util\TriFunction.class
 PatchEverything\patches\CustomDeckPatches$OrderingPatch.class
-PatchEverything\patches\PowerTotalPatches$PoisonTotalPatch.class
 PatchEverything\screens\PowerCardScreen$SetRelicsCardPatch.class
 PatchEverything\util\TextureLoader.class
 PatchEverything\patches\BuxomPatches$RemoveGetNaked.class

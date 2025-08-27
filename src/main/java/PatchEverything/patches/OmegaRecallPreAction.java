@@ -54,8 +54,7 @@ public class OmegaRecallPreAction extends AbstractGameAction {
             return new ExprEditor() {
                 @Override
                 public void edit(MethodCall m) throws CannotCompileException {
-                    m.replace("" +
-                        "com.megacrit.cardcrawl.dungeons.AbstractDungeon.actionManager.addToTop(new BuxomMod.actions.OmegaRecallAction(com.megacrit.cardcrawl.dungeons.AbstractDungeon.player, this.amount));" +
+                    m.replace("com.megacrit.cardcrawl.dungeons.AbstractDungeon.actionManager.addToTop(new BuxomMod.actions.OmegaRecallAction(com.megacrit.cardcrawl.dungeons.AbstractDungeon.player, this.amount));" +
                         "if (BuxomMod.BuxomMod.specialGetCardsOfType(com.megacrit.cardcrawl.dungeons.AbstractDungeon.player.drawPile, com.megacrit.cardcrawl.cards.AbstractCard.CardType.STATUS, true).size() < this.amount) {" +
                         "   com.megacrit.cardcrawl.dungeons.AbstractDungeon.actionManager.addToTop(new com.megacrit.cardcrawl.actions.common.EmptyDeckShuffleAction());" +
                         "}" +

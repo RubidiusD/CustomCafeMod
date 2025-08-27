@@ -11,6 +11,7 @@ import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl.LwjglFileHandle;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.evacipated.cardcrawl.modthespire.Loader;
 import com.evacipated.cardcrawl.modthespire.ModInfo;
 import com.evacipated.cardcrawl.modthespire.Patcher;
@@ -29,7 +30,7 @@ import static basemod.BaseMod.addCustomScreen;
 @SpireInitializer
 @SpireSideload(modIDs = {"justclick"})
 public class EverythingPatchMod implements
-        PostInitializeSubscriber {
+        PostInitializeSubscriber, EditStringsSubscriber {
     public static ModInfo info;
     public static String modID; //Edit your pom.xml to change this
     static { loadModInfo(); }
@@ -47,14 +48,22 @@ public class EverythingPatchMod implements
     }
 
     @Override
-    public void receivePostInitialize() {
-        //This loads the image used as an icon in the in-game mods menu.
-        Texture badgeTexture = TextureLoader.getTexture(imagePath("badge.png"));
-        //Set up the mod information displayed in the in-game mods menu.
-        //The information used is taken from your pom.xml file.
+    public void receiveEditStrings() {
+        loadLocalization(defaultLanguage); //no exception catching for default localization; you better have at least one that works.
+        if (!defaultLanguage.equals(getLangString())) {
+            try {
+                loadLocalization(getLangString());
+            }
+            catch (GdxRuntimeException e) {
+                System.out.println(e.getMessage());
+                System.out.println(e.getCause().getMessage());
+            }
+        }
+    }
 
-        //If you want to set up a config panel, that will be done here.
-        //You can find information about this on the BaseMod wiki page "Mod Config and Panel".
+    @Override
+    public void receivePostInitialize() {
+        Texture badgeTexture = TextureLoader.getTexture(imagePath("badge.png"));
         BaseMod.registerModBadge(badgeTexture, info.Name, GeneralUtils.arrToString(info.Authors), info.Description, new EverythingPatchConfig());
         addCustomScreen(new PowerCardScreen());
     }

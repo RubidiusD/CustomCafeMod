@@ -1,9 +1,9 @@
 {
   "modid": "PatchEverything",
   "name": "Everything Patch Mod",
-  "author_list": ["Rubidius \\\"Rubi\\\" Dext"],
-  "description": "If there's a mod that I've used and it has a bug? It's been fixed by this.",
-  "version": "0.3.5",
+  "author_list": ["Rubidius \"Rubi\" Dext"],
+  "description": "If there's a mod that I've used, and it has a bug? It's been fixed by this.",
+  "version": "0.3.6",
   "sts_version": "12-18-2022",
   "mts_version": "3.30.0",
   "dependencies": ["basemod", "stslib"],

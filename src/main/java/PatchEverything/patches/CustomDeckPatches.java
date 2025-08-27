@@ -22,8 +22,17 @@ public class CustomDeckPatches {
         }
     }
 
-    public static void CleanseCardList(ArrayList<AbstractCard> cardList) {
-        cardList.removeIf((abstractCard) -> abstractCard.color == AbstractCard.CardColor.CURSE || (!includeStatusCards && abstractCard.type == AbstractCard.CardType.STATUS));
+    public static boolean CleanseCardList(ArrayList<AbstractCard> cardList) {
+        for (int index = 0; index != cardList.size(); index++) {
+            AbstractCard abstractCard = cardList.get(index);
+            if (abstractCard == null)
+                return false;
+            if (abstractCard.color == AbstractCard.CardColor.CURSE || (!includeStatusCards && abstractCard.type == AbstractCard.CardType.STATUS)) {
+                cardList.remove(index);
+                index --;
+            }
+        }
+        return true;
     }
 
     @SpirePatch2(cls= "CustomStart.CustomRunMods.CustomDeckScreenBase$CustomDeckScreen", method= "InitCardList", paramtypez = {AbstractCard.CardColor.class}, requiredModId = "CustomStart")

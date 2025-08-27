@@ -1,7 +1,7 @@
 {
   "modid": "PatchEverything",
   "name": "Everything Patch Mod",
-  "author_list": ["Rubidius \\\"Rubi\\\" Dext"],
+  "author_list": ["Rubidius \"Rubi\" Dext"],
   "description": "!(project.description)",
   "version": "${project.version}",
   "sts_version": "12-18-2022",

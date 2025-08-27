@@ -1,5 +1,6 @@
 package PatchEverything.screens;
 
+import PatchEverything.patches.ExprViewer;
 import basemod.BaseMod;
 import basemod.abstracts.CustomScreen;
 import com.badlogic.gdx.Gdx;
@@ -26,6 +27,7 @@ import com.megacrit.cardcrawl.screens.mainMenu.ScrollBarListener;
 import com.megacrit.cardcrawl.ui.buttons.GridSelectConfirmButton;
 import javassist.CannotCompileException;
 import javassist.expr.ExprEditor;
+import javassist.expr.FieldAccess;
 import javassist.expr.MethodCall;
 
 import java.util.ArrayList;
@@ -145,17 +147,16 @@ public class PowerCardScreen extends CustomScreen implements ScrollBarListener {
     }
 
     private void setRelicsCard(AbstractCard c) {
-        return;
+        System.out.println("If You're Seeing This, Panic. A Lot.");
     }
 
     @SpirePatch2(clz= PowerCardScreen.class, method= "setRelicsCard", paramtypez = {AbstractCard.class}, requiredModId = "anniv7")
     public static class SetRelicsCardPatch {
-        @SpireInstrumentPatch
-        public static ExprEditor Instrument() {
-            return new ExprEditor() {
-                @Override
-                public void edit(MethodCall m) throws CannotCompileException {
-                    if (m.getMethodName().equals("return")) {
+        @SpireInstrumentPatch public static ExprEditor Instrument() {
+            return new ExprEditor()
+            {
+                @Override public void edit(MethodCall m) throws CannotCompileException {
+                    if (m.getMethodName().equals("println")) {
                         m.replace("((spireCafe.interactables.patrons.powerelic.implementation.PowerelicRelic) this.relic).capturedCard = c;");
                     }
                 }
@@ -404,22 +405,19 @@ public class PowerCardScreen extends CustomScreen implements ScrollBarListener {
 
     @SpirePatch2(cls= "spireCafe.interactables.patrons.powerelic.implementation.PowerelicRelic", method= "atPreBattle", paramtypez={}, requiredModId = "anniv7")
     public static class RelicPatch {
-        @SpireInstrumentPatch
-        public static ExprEditor Instrument() {
+        @SpireInstrumentPatch public static ExprEditor Instrument() {
             return new ExprEditor() {
                 boolean first = true;
 
                 @Override
-                public void edit(MethodCall m) throws CannotCompileException {
+                public void edit(FieldAccess f) throws CannotCompileException {
                     if (first) {
                         first = false;
-                        m.replace(
+                        f.replace("$_ = $proceed($$);" +
                             "if (this.capturedCard == null && !com.megacrit.cardcrawl.dungeons.AbstractDungeon.isScreenUp) {" +
                             "    PatchEverything.screens.PowerCardScreen.openWithExtraSteps(this);" +
-                            "}" +
-                            "$_ = $proceed($$);");
-
-
+                            "}"
+                        );
                     }
                 }
             };
