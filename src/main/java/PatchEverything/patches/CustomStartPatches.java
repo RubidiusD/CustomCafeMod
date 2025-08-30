@@ -4,15 +4,19 @@ import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInstrumentPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
 import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.helpers.RelicLibrary;
+import com.megacrit.cardcrawl.relics.AbstractRelic;
 import javassist.CannotCompileException;
 import javassist.expr.ExprEditor;
 import javassist.expr.MethodCall;
 
 import java.util.ArrayList;
 
+import static PatchEverything.util.EverythingPatchConfig.includeEventRelics;
 import static PatchEverything.util.EverythingPatchConfig.includeStatusCards;
 
-public class CustomDeckPatches {
+public class CustomStartPatches {
     @SpirePatch2(cls= "CustomStart.CustomRunMods.CustomDeckScreenBase$CustomDeckScreen", method= "open", paramtypez = {}, requiredModId = "CustomStart")
     public static class OrderingPatch {
         @SpireInsertPatch(rloc= 5)
@@ -47,11 +51,22 @@ public class CustomDeckPatches {
                     if (m.getMethodName().equals("removeIf")) {
                         line ++;
                         if (line == 2) {
-                            m.replace("$_ = PatchEverything.patches.CustomDeckPatches.CleanseCardList(cardList);");
+                            m.replace("$_ = PatchEverything.patches.CustomStartPatches.CleanseCardList(cardList);");
                         }
                     }
                 }
             };
+        }
+    }
+
+    @SpirePatch2(cls= "CustomStart.CustomRunMods.Relicselectscreen", method= "open", paramtypez = {}, requiredModId = "CustomStart")
+    public static class RelicStartPatch {
+        @SpireInsertPatch(rloc=9)
+        public static void Insert(ArrayList<AbstractRelic> ___relics) {
+            if (includeEventRelics) {
+                ___relics.addAll(RelicLibrary.specialList);
+            }
+            ___relics.removeIf(o1 -> AbstractDungeon.player.hasRelic(o1.relicId));
         }
     }
 }

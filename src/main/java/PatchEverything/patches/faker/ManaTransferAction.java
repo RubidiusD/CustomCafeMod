@@ -1,4 +1,4 @@
-package PatchEverything.patches;
+package PatchEverything.patches.faker;
 
 import com.evacipated.cardcrawl.mod.stslib.actions.defect.EvokeSpecificOrbAction;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;

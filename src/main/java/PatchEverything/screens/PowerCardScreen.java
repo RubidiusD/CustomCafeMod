@@ -1,6 +1,5 @@
 package PatchEverything.screens;
 
-import PatchEverything.patches.ExprViewer;
 import basemod.BaseMod;
 import basemod.abstracts.CustomScreen;
 import com.badlogic.gdx.Gdx;

@@ -1,4 +1,4 @@
-package PatchEverything.patches;
+package PatchEverything.util;
 
 import javassist.CannotCompileException;
 import javassist.NotFoundException;
