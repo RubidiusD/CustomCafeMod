@@ -2,6 +2,8 @@ PatchEverything\patches\BuxomPatches$DontAlwaysAddBuxom.class
 PatchEverything\patches\OmegaRecallPreAction$OmegaRecallActionFix$1.class
 PatchEverything\util\EverythingPatchConfig.class
 PatchEverything\patches\OmegaRecallPreAction$OmegaRecallPowerFix$1.class
+PatchEverything\patches\BuxomPatches$ShrinkEvent.class
+PatchEverything\patches\BuxomPatches$ShrinkEvent$1.class
 PatchEverything\screens\PowerCardScreen$RelicPatch$1.class
 PatchEverything\util\CardStats.class
 PatchEverything\util\KeywordInfo.class

@@ -1,5 +1,6 @@
 package PatchEverything.patches;
 
+import PatchEverything.util.ExprViewer;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
@@ -23,8 +24,7 @@ public class BuxomPatches {
     public static class NewGeorge {
         @SpireInstrumentPatch public static ExprEditor Instrument() {
             return new ExprEditor() {
-                @Override
-                public void edit(MethodCall m) throws CannotCompileException {
+                @Override public void edit(MethodCall m) throws CannotCompileException {
                     if (m.getMethodName().equals("set")) {
                         m.replace("g = new BuxomMod.characters.TheBuxom(\"George\", BuxomMod.characters.TheBuxom.Enums.THE_BUXOM); $_ = $proceed($$);");
                     }
@@ -132,6 +132,28 @@ public class BuxomPatches {
             return new ExprEditor() {
                 @Override public void edit(Instanceof i) throws CannotCompileException {
                     i.replace("$_ = true;");
+                }
+            };
+        }
+    }
+
+    @SpirePatches2({
+            @SpirePatch2(cls= "BuxomMod.vfx.ShrinkEvent", method= SpirePatch.CONSTRUCTOR, requiredModId = "BuxomMod"),
+            @SpirePatch2(cls= "BuxomMod.vfx.ShrinkEvent", method= "initiate", paramtypez = {}, requiredModId = "BuxomMod"),
+            @SpirePatch2(cls= "BuxomMod.vfx.ShrinkEvent", method= "apply", paramtypez = {}, requiredModId = "BuxomMod")
+    })
+    public static class ShrinkEvent {
+        @SpireInstrumentPatch public static ExprEditor Instrument() {
+            return new ExprViewer() {
+                @Override public void edit(Cast c) throws CannotCompileException {
+                    super.edit(c);
+
+                    try {
+                        if (c.getType().getSimpleName().equals("TheBuxom"))
+                            c.replace("if (com.megacrit.cardcrawl.dungeons.AbstractDungeon.player instanceof BuxomMod.characters.TheBuxom) {$_ = $proceed($$);} else {$_ = (BuxomMod.characters.TheBuxom)PatchEverything.patches.BuxomPatches.George.get();}");
+                    } catch (NotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             };
         }

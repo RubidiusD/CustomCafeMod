@@ -15,10 +15,13 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.evacipated.cardcrawl.modthespire.Loader;
 import com.evacipated.cardcrawl.modthespire.ModInfo;
 import com.evacipated.cardcrawl.modthespire.Patcher;
-import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
-import com.evacipated.cardcrawl.modthespire.lib.SpireSideload;
+import com.evacipated.cardcrawl.modthespire.lib.*;
+import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.localization.*;
+import javassist.CannotCompileException;
+import javassist.expr.ExprEditor;
+import javassist.expr.MethodCall;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.scannotation.AnnotationDB;
@@ -36,6 +39,19 @@ public class EverythingPatchMod implements
     static { loadModInfo(); }
     private static final String resourcesFolder = checkResourcesPath();
     public static final Logger logger = LogManager.getLogger(modID); //Used to output to the console.
+//    public static AbstractPlayer george;
+//
+//    @SpirePatch2(clz = EverythingPatchMod.class, method= SpirePatch.STATICINITIALIZER, requiredModId = "BuxomMod")
+//    public static class GeorgePatch {
+//        @SpireInstrumentPatch public static ExprEditor Instrument() {
+//            return new ExprEditor() {
+//                @Override
+//                public void edit(MethodCall m) throws CannotCompileException {
+//                    m.replace("$_ = $proceed($$); george = new BuxomMod.characters.TheBuxom(\"George\", BuxomMod.characters.TheBuxom.Enums.THE_BUXOM);");
+//                }
+//            };
+//        }
+//    }
 
     //This will be called by ModTheSpire because of the @SpireInitializer annotation at the top of the class.
     public static void initialize() {
