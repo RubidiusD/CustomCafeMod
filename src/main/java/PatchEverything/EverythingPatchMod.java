@@ -2,7 +2,7 @@ package PatchEverything;
 
 import basemod.BaseMod;
 import basemod.interfaces.*;
-import PatchEverything.screens.PowerCardScreen;
+import PatchEverything.patches.PowerCardScreen;
 import PatchEverything.util.EverythingPatchConfig;
 import PatchEverything.util.GeneralUtils;
 import PatchEverything.util.KeywordInfo;
@@ -16,12 +16,8 @@ import com.evacipated.cardcrawl.modthespire.Loader;
 import com.evacipated.cardcrawl.modthespire.ModInfo;
 import com.evacipated.cardcrawl.modthespire.Patcher;
 import com.evacipated.cardcrawl.modthespire.lib.*;
-import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.localization.*;
-import javassist.CannotCompileException;
-import javassist.expr.ExprEditor;
-import javassist.expr.MethodCall;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.scannotation.AnnotationDB;
@@ -39,19 +35,8 @@ public class EverythingPatchMod implements
     static { loadModInfo(); }
     private static final String resourcesFolder = checkResourcesPath();
     public static final Logger logger = LogManager.getLogger(modID); //Used to output to the console.
-//    public static AbstractPlayer george;
-//
-//    @SpirePatch2(clz = EverythingPatchMod.class, method= SpirePatch.STATICINITIALIZER, requiredModId = "BuxomMod")
-//    public static class GeorgePatch {
-//        @SpireInstrumentPatch public static ExprEditor Instrument() {
-//            return new ExprEditor() {
-//                @Override
-//                public void edit(MethodCall m) throws CannotCompileException {
-//                    m.replace("$_ = $proceed($$); george = new BuxomMod.characters.TheBuxom(\"George\", BuxomMod.characters.TheBuxom.Enums.THE_BUXOM);");
-//                }
-//            };
-//        }
-//    }
+    public static class GeorgeContainer {};
+    public static GeorgeContainer georgeContainer;
 
     //This will be called by ModTheSpire because of the @SpireInitializer annotation at the top of the class.
     public static void initialize() {
@@ -81,7 +66,9 @@ public class EverythingPatchMod implements
     public void receivePostInitialize() {
         Texture badgeTexture = TextureLoader.getTexture(imagePath("badge.png"));
         BaseMod.registerModBadge(badgeTexture, info.Name, GeneralUtils.arrToString(info.Authors), info.Description, new EverythingPatchConfig());
-        addCustomScreen(new PowerCardScreen());
+        if (Loader.isModLoadedOrSideloaded("anniv7")) {
+            addCustomScreen(new PowerCardScreen());
+        }
     }
 
     /*----------Localization----------*/

@@ -13,8 +13,7 @@ import javassist.expr.MethodCall;
 
 import java.util.ArrayList;
 
-import static PatchEverything.util.EverythingPatchConfig.includeEventRelics;
-import static PatchEverything.util.EverythingPatchConfig.includeStatusCards;
+import static PatchEverything.util.EverythingPatchConfig.*;
 
 public class CustomStartPatches {
     @SpirePatch2(cls= "CustomStart.CustomRunMods.CustomDeckScreenBase$CustomDeckScreen", method= "open", paramtypez = {}, requiredModId = "CustomStart")
@@ -24,6 +23,16 @@ public class CustomStartPatches {
             ___colorList.remove(AbstractCard.CardColor.BLUE);
             ___colorList.add(AbstractCard.CardColor.BLUE);
         }
+
+        @SpireInstrumentPatch public static ExprEditor Instrument() {
+            return new ExprEditor() {
+                @Override public void edit(MethodCall m) throws CannotCompileException {
+                    if (m.getMethodName().equals("remove")) {
+                        m.replace("$_ = null; if (!PatchEverything.util.EverythingPatchConfig.includeCurseCards) {$proceed($$);}");
+                    }
+                }
+            };
+        }
     }
 
     public static boolean CleanseCardList(ArrayList<AbstractCard> cardList) {
@@ -31,7 +40,7 @@ public class CustomStartPatches {
             AbstractCard abstractCard = cardList.get(index);
             if (abstractCard == null)
                 return false;
-            if (abstractCard.color == AbstractCard.CardColor.CURSE || (!includeStatusCards && abstractCard.type == AbstractCard.CardType.STATUS)) {
+            if ((!includeCurseCards && abstractCard.color == AbstractCard.CardColor.CURSE) || (!includeStatusCards && abstractCard.type == AbstractCard.CardType.STATUS)) {
                 cardList.remove(index);
                 index --;
             }

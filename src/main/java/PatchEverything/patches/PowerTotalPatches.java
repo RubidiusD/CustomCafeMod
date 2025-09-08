@@ -14,7 +14,7 @@ import static com.megacrit.cardcrawl.core.CardCrawlGame.languagePack;
 })
 public class PowerTotalPatches {
     public static void Postfix(AbstractPower __instance) {
-        if (__instance.owner.isPlayer || ! (__instance instanceof RegenPower)) {
+        if (__instance.owner.isPlayer || !(__instance instanceof RegenPower)) {
             __instance.description = __instance.description + languagePack.getUIString("PatchEverything:PowerTotalPatches").TEXT[0] + (__instance.amount * (__instance.amount + 1)) / 2 + ".";
         }
     }

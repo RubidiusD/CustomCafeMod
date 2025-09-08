@@ -16,7 +16,8 @@
   "PatchEverything:CustomStartConfig": {
     "TEXT_DICT": {
       "includeEventRelics": "Include Event Relics in Custom Start",
-      "includeStatusCards": "Include Status Cards in Custom Start"
+      "includeStatusCards": "Include Status Cards in Custom Start",
+      "includeCurseCards":  "Include Curse Cards in Custom Start"
     }
   },
   "PatchEverything:PowerTotalPatches": {

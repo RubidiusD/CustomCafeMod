@@ -3,19 +3,20 @@ package PatchEverything.patches;
 import PatchEverything.util.ExprViewer;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import javassist.*;
 import javassist.expr.*;
 
+import static PatchEverything.EverythingPatchMod.georgeContainer;
+
 public class BuxomPatches {
-    @SpirePatch2(cls= "com.megacrit.cardcrawl.characters.AbstractPlayer", method= SpirePatch.CLASS, requiredModId = "BuxomMod")
+    @SpirePatch2(cls= "PatchEverything.EverythingPatchMod$GeorgeContainer", method= SpirePatch.CLASS, requiredModId = "BuxomMod")
     public static class George {
         public static SpireField<AbstractPlayer> george = new SpireField<>(() -> null);
 
         public static AbstractPlayer get() {
-            AbstractPlayer g = George.george.get(AbstractDungeon.player);
-            if (g == null) {George.george.set(AbstractDungeon.player, g);}
+            AbstractPlayer g = george.get(georgeContainer);
+            if (g == null) {george.set(georgeContainer, g);}
             return g;
         }
     }
@@ -90,9 +91,9 @@ public class BuxomPatches {
                         f.replace("$_ = $proceed($$); if (!(com.megacrit.cardcrawl.dungeons.AbstractDungeon.player instanceof BuxomMod.characters.TheBuxom)) {this.permaSizeStart = 0;}");
                     }
 
-                    else if (f.getFieldName().equals("straining")) {
-                        f.replace("$_ = $proceed($$); PatchEverything.patches.BuxomPatches.George.george.set(com.megacrit.cardcrawl.dungeons.AbstractDungeon.player, new BuxomMod.characters.TheBuxom(\"George\", BuxomMod.characters.TheBuxom.Enums.THE_BUXOM));");
-                    }
+//                    else if (f.getFieldName().equals("straining")) {
+//                        f.replace("$_ = $proceed($$); PatchEverything.patches.BuxomPatches.George.george.set(com.megacrit.cardcrawl.dungeons.AbstractDungeon.player, new BuxomMod.characters.TheBuxom(\"George\", BuxomMod.characters.TheBuxom.Enums.THE_BUXOM));");
+//                    }
                 }
             };
         }
