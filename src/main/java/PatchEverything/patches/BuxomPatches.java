@@ -1,33 +1,18 @@
 package PatchEverything.patches;
 
-import PatchEverything.util.ExprViewer;
 import com.evacipated.cardcrawl.modthespire.lib.*;
-import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import javassist.*;
 import javassist.expr.*;
 
-import static PatchEverything.EverythingPatchMod.georgeContainer;
-
 public class BuxomPatches {
-    @SpirePatch2(cls= "PatchEverything.EverythingPatchMod$GeorgeContainer", method= SpirePatch.CLASS, requiredModId = "BuxomMod")
-    public static class George {
-        public static SpireField<AbstractPlayer> george = new SpireField<>(() -> null);
-
-        public static AbstractPlayer get() {
-            AbstractPlayer g = george.get(georgeContainer);
-            if (g == null) {george.set(georgeContainer, g);}
-            return g;
-        }
-    }
-
-    @SpirePatch2(cls = "PatchEverything.patches.BuxomPatches$George", method= "get", requiredModId = "BuxomMod")
+    @SpirePatch2(cls = "PatchEverything.EverythingPatchMod", method= "getGeorge", requiredModId = "BuxomMod")
     public static class NewGeorge {
         @SpireInstrumentPatch public static ExprEditor Instrument() {
             return new ExprEditor() {
                 @Override public void edit(MethodCall m) throws CannotCompileException {
-                    if (m.getMethodName().equals("set")) {
-                        m.replace("g = new BuxomMod.characters.TheBuxom(\"George\", BuxomMod.characters.TheBuxom.Enums.THE_BUXOM); $_ = $proceed($$);");
+                    if (m.getMethodName().equals("println")) {
+                        m.replace("george = new BuxomMod.characters.TheBuxom(\"George\", BuxomMod.characters.TheBuxom.Enums.THE_BUXOM);");
                     }
                 }
             };
@@ -44,7 +29,7 @@ public class BuxomPatches {
                 @Override public void edit(Cast c) throws CannotCompileException {
                     try {
                         if (c.getType().getSimpleName().equals("TheBuxom"))
-                            c.replace("$_ = (BuxomMod.characters.TheBuxom)PatchEverything.patches.BuxomPatches.George.get();");
+                            c.replace("$_ = (BuxomMod.characters.TheBuxom)PatchEverything.EverythingPatchMod.getGeorge();");
                     } catch (NotFoundException e) {
                         throw new RuntimeException(e);
                     }
@@ -70,7 +55,7 @@ public class BuxomPatches {
                 @Override public void edit(Cast c) throws CannotCompileException {
                     try {
                         if (c.getType().getSimpleName().equals("TheBuxom"))
-                            c.replace("$_ = (BuxomMod.characters.TheBuxom)PatchEverything.patches.BuxomPatches.George.get();");
+                            c.replace("$_ = (BuxomMod.characters.TheBuxom)PatchEverything.EverythingPatchMod.getGeorge();");
                     } catch (NotFoundException e) {
                         throw new RuntimeException(e);
                     }
@@ -90,10 +75,6 @@ public class BuxomPatches {
                         first = false;
                         f.replace("$_ = $proceed($$); if (!(com.megacrit.cardcrawl.dungeons.AbstractDungeon.player instanceof BuxomMod.characters.TheBuxom)) {this.permaSizeStart = 0;}");
                     }
-
-//                    else if (f.getFieldName().equals("straining")) {
-//                        f.replace("$_ = $proceed($$); PatchEverything.patches.BuxomPatches.George.george.set(com.megacrit.cardcrawl.dungeons.AbstractDungeon.player, new BuxomMod.characters.TheBuxom(\"George\", BuxomMod.characters.TheBuxom.Enums.THE_BUXOM));");
-//                    }
                 }
             };
         }
@@ -115,7 +96,7 @@ public class BuxomPatches {
                 @Override public void edit(Cast c) throws CannotCompileException {
                     try {
                         if (c.getType().getSimpleName().equals("TheBuxom"))
-                            c.replace("$_ = (BuxomMod.characters.TheBuxom)PatchEverything.patches.BuxomPatches.George.get();");
+                            c.replace("$_ = (BuxomMod.characters.TheBuxom)PatchEverything.EverythingPatchMod.getGeorge();");
                     } catch (NotFoundException e) {
                         throw new RuntimeException(e);
                     }
@@ -145,13 +126,13 @@ public class BuxomPatches {
     })
     public static class ShrinkEvent {
         @SpireInstrumentPatch public static ExprEditor Instrument() {
-            return new ExprViewer() {
+            return new ExprEditor() {
                 @Override public void edit(Cast c) throws CannotCompileException {
                     super.edit(c);
 
                     try {
                         if (c.getType().getSimpleName().equals("TheBuxom"))
-                            c.replace("if (com.megacrit.cardcrawl.dungeons.AbstractDungeon.player instanceof BuxomMod.characters.TheBuxom) {$_ = $proceed($$);} else {$_ = (BuxomMod.characters.TheBuxom)PatchEverything.patches.BuxomPatches.George.get();}");
+                            c.replace("if (com.megacrit.cardcrawl.dungeons.AbstractDungeon.player instanceof BuxomMod.characters.TheBuxom) {$_ = $proceed($$);} else {$_ = (BuxomMod.characters.TheBuxom)PatchEverything.EverythingPatchMod.getGeorge();}");
                     } catch (NotFoundException e) {
                         throw new RuntimeException(e);
                     }

@@ -8,6 +8,9 @@ public class ExprViewer extends ExprEditor {
     private boolean firstLine = true;
     protected String tagLine = "";
 
+    public ExprViewer(String tagLine) {super(); this.tagLine = tagLine;}
+    public ExprViewer() {this("Unnamed Instrument Patch");}
+
     @Override public void edit(MethodCall m) throws CannotCompileException {
         if (firstLine) {System.out.println(); System.out.println(tagLine); firstLine = false;}
 

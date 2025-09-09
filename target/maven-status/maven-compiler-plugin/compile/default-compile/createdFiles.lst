@@ -1,10 +1,11 @@
 PatchEverything\patches\BuxomPatches$DontAlwaysAddBuxom.class
 PatchEverything\patches\OmegaRecallPreAction$OmegaRecallActionFix$1.class
 PatchEverything\util\EverythingPatchConfig.class
+PatchEverything\patches\MaxPoisonPatch.class
+PatchEverything\patches\MaxPoisonPatch$displayOverflowPatch.class
 PatchEverything\patches\OmegaRecallPreAction$OmegaRecallPowerFix$1.class
 PatchEverything\patches\BuxomPatches$ShrinkEvent.class
 PatchEverything\patches\BuxomPatches$ShrinkEvent$1.class
-PatchEverything\EverythingPatchMod$GeorgeContainer.class
 PatchEverything\patches\PowerCardScreen.class
 PatchEverything\util\CardStats.class
 PatchEverything\util\KeywordInfo.class
@@ -26,6 +27,7 @@ PatchEverything\patches\faker\ManaTransferAction$ManaTransferFix.class
 PatchEverything\patches\BuxomPatches$RemoveGetNaked.class
 PatchEverything\patches\faker\GlassHeartPatch$1.class
 PatchEverything\patches\OmegaRecallPreAction$OmegaRecallPreActionContent.class
+PatchEverything\patches\MaxPoisonPatch$preventOverflowPatch.class
 PatchEverything\patches\BuxomPatches$DoItAnyway$1.class
 PatchEverything\patches\BuxomPatches$NewGeorge.class
 PatchEverything\patches\faker\ManaTransferAction.class
@@ -37,11 +39,13 @@ PatchEverything\patches\OmegaRecallPreAction$OmegaRecallPreActionContent$1.class
 PatchEverything\patches\PowerTotalPatches.class
 PatchEverything\patches\CustomStartPatches.class
 PatchEverything\patches\PowerCardScreen$RelicPatch.class
+PatchEverything\patches\MaxPoisonPatch$applyMorePatch.class
 PatchEverything\patches\BuxomPatches$OnlyAnimateBuxom$1.class
 PatchEverything\util\GeneralUtils.class
 PatchEverything\patches\BuxomPatches$NewGeorge$1.class
+PatchEverything\patches\MaxPoisonPatch$displayOverflowPatch$1.class
+PatchEverything\patches\MaxPoisonPatch$Excess.class
 PatchEverything\patches\CustomStartPatches$OrderingPatch$1.class
-PatchEverything\patches\BuxomPatches$George.class
 PatchEverything\patches\BuxomPatches$StartingBuxom$1.class
 PatchEverything\patches\OmegaRecallPreAction.class
 PatchEverything\patches\PowerCardScreen$SetRelicsCardPatch$1.class

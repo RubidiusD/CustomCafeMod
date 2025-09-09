@@ -16,6 +16,7 @@ import com.evacipated.cardcrawl.modthespire.Loader;
 import com.evacipated.cardcrawl.modthespire.ModInfo;
 import com.evacipated.cardcrawl.modthespire.Patcher;
 import com.evacipated.cardcrawl.modthespire.lib.*;
+import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.localization.*;
 import org.apache.logging.log4j.LogManager;
@@ -35,8 +36,13 @@ public class EverythingPatchMod implements
     static { loadModInfo(); }
     private static final String resourcesFolder = checkResourcesPath();
     public static final Logger logger = LogManager.getLogger(modID); //Used to output to the console.
-    public static class GeorgeContainer {};
-    public static GeorgeContainer georgeContainer;
+    public static AbstractPlayer george;
+
+    public static AbstractPlayer getGeorge() {
+        if (george == null) {
+            System.out.println("Oh Shit George is Dead");
+        }
+        return george;    };
 
     //This will be called by ModTheSpire because of the @SpireInitializer annotation at the top of the class.
     public static void initialize() {

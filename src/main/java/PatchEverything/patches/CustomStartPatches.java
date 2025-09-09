@@ -24,11 +24,19 @@ public class CustomStartPatches {
             ___colorList.add(AbstractCard.CardColor.BLUE);
         }
 
+        @SpireInsertPatch(rloc= 7)
+        public static void Insert2(ArrayList<AbstractCard.CardColor> ___colorList) {
+            if (includeCurseCards) {
+                ___colorList.add(AbstractCard.CardColor.CURSE);
+            }
+        }
+
         @SpireInstrumentPatch public static ExprEditor Instrument() {
             return new ExprEditor() {
                 @Override public void edit(MethodCall m) throws CannotCompileException {
                     if (m.getMethodName().equals("remove")) {
-                        m.replace("$_ = null; if (!PatchEverything.util.EverythingPatchConfig.includeCurseCards) {$proceed($$);}");
+                        m.replace("$_ = 0;");
+//                        m.replace("$_ = 0; if (!(PatchEverything.util.EverythingPatchConfig.includeCurseCards)) {$proceed($$);}");
                     }
                 }
             };
