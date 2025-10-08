@@ -49,4 +49,11 @@ public class ExprViewer extends ExprEditor {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void edit(ConstructorCall c) throws CannotCompileException {
+        if (firstLine) {System.out.println(); System.out.println(tagLine); firstLine = false;}
+
+        System.out.println("Constructor: " + c.getMethodName());
+    }
 }

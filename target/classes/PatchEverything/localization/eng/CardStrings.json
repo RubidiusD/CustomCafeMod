@@ -1,0 +1,17 @@
+{
+  "PatchEverything:ExampleCard": {
+    "NAME": "Name",
+    "DESCRIPTION": "Description. NL Second line.",
+    "UPGRADE_DESCRIPTION": "This will automatically be used if the card is upgraded. Remove it if unneeded.",
+    "EXTENDED_DESCRIPTION": [
+      "You can put more text in here.",
+      "If you need to use it for stuff.",
+      "Blizzard is a good example for this."
+    ]
+  },
+  "PatchEverything:TestingTesting": {
+    "NAME": "The Card Applies Everything",
+    "DESCRIPTION": "Innate. NL Retain. NL Apply !M! million Stuff. Upgrade permanently. Can be upgraded any number of times.",
+    "UPGRADE_DESCRIPTION": "Innate. NL Retain. NL Apply !M! million Stuff. Draw !BuxomPack:Draw! cards. Upgrade permanently. Can be upgraded any number of times."
+  }
+}

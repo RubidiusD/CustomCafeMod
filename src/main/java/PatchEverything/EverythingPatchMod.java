@@ -1,6 +1,11 @@
 package PatchEverything;
 
+import PatchEverything.implementation.BaseCard;
+import PatchEverything.implementation.BaseRelic;
+import PatchEverything.implementation.Poof;
+import basemod.AutoAdd;
 import basemod.BaseMod;
+import basemod.helpers.CardBorderGlowManager;
 import basemod.interfaces.*;
 import PatchEverything.patches.PowerCardScreen;
 import PatchEverything.util.EverythingPatchConfig;
@@ -10,27 +15,33 @@ import PatchEverything.util.TextureLoader;
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl.LwjglFileHandle;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.evacipated.cardcrawl.modthespire.Loader;
 import com.evacipated.cardcrawl.modthespire.ModInfo;
 import com.evacipated.cardcrawl.modthespire.Patcher;
 import com.evacipated.cardcrawl.modthespire.lib.*;
+import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.*;
+import com.megacrit.cardcrawl.unlock.UnlockTracker;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.scannotation.AnnotationDB;
 
 import java.util.*;
 
+import static PatchEverything.util.EverythingPatchConfig.divaRhythmGlow;
 import static basemod.BaseMod.addCustomScreen;
+import static com.megacrit.cardcrawl.dungeons.AbstractDungeon.player;
 
 @SpireInitializer
 @SpireSideload(modIDs = {"justclick"})
 public class EverythingPatchMod implements
-        PostInitializeSubscriber, EditStringsSubscriber {
+        PostInitializeSubscriber, EditCardsSubscriber, EditRelicsSubscriber, EditStringsSubscriber, PostDungeonInitializeSubscriber {
     public static ModInfo info;
     public static String modID; //Edit your pom.xml to change this
     static { loadModInfo(); }
@@ -42,7 +53,8 @@ public class EverythingPatchMod implements
         if (george == null) {
             System.out.println("Oh Shit George is Dead");
         }
-        return george;    };
+        return george;
+    };
 
     //This will be called by ModTheSpire because of the @SpireInitializer annotation at the top of the class.
     public static void initialize() {
@@ -69,6 +81,53 @@ public class EverythingPatchMod implements
     }
 
     @Override
+    public void receiveEditCards() { // adds any cards to the game
+        new AutoAdd(modID) // Loads files
+                .packageFilter(BaseCard.class) // in the same package as this class
+                .any(BaseCard.class, (info, card) -> {
+                    BaseMod.addCard(card);
+                    if (info.seen || card.rarity == AbstractCard.CardRarity.BASIC)
+                        UnlockTracker.markCardAsSeen(card.cardID); // marks as discovered if seen before or a starter
+                });
+
+        if (Loader.isModLoaded("dumbjokedivamod")) {
+            // Card Glow Conditions
+            CardBorderGlowManager.addGlowInfo(new CardBorderGlowManager.GlowInfo() {
+                @Override public String glowID() { return ("EverythingPatchMod:RhythmGlow"); }
+                @Override public Color getColor(AbstractCard card) {
+                    return new Color(0.2f, 0.9f, 0.7f, (player.hasPower("dumbjokedivamod:Silenced")) ? 0.5f : 1.0f);
+                }
+                @Override public boolean test(AbstractCard card) {
+                    return (divaRhythmGlow && player.hasPower("dumbjokedivamod:Rhythm") && player.getPower("dumbjokedivamod:Rhythm").amount == card.costForTurn);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void receiveEditRelics() { // adds any relics to the game
+        new AutoAdd(modID) // Loads files
+                .packageFilter(BaseRelic.class) // in the same package as this class
+                .any(BaseRelic.class, (info, relic) -> { // run this code for children
+                    if (relic.pool != null)
+                        BaseMod.addRelicToCustomPool(relic, relic.pool); //Register a custom character specific relic
+                    else
+                        BaseMod.addRelic(relic, relic.relicType); //Register a shared or base game character specific relic
+
+                    // If the class is annotated with @AutoAdd.Seen, it's marked as seen
+                    if (info.seen)
+                        UnlockTracker.markRelicAsSeen(relic.relicId);
+                });
+    }
+
+    @Override
+    public void receivePostDungeonInitialize() {
+        if (Loader.isModLoaded("ExhaustPoof")) {
+            player.relics.add(new Poof());
+        }
+    }
+
+    @Override
     public void receivePostInitialize() {
         Texture badgeTexture = TextureLoader.getTexture(imagePath("badge.png"));
         BaseMod.registerModBadge(badgeTexture, info.Name, GeneralUtils.arrToString(info.Authors), info.Description, new EverythingPatchConfig());
@@ -91,6 +150,8 @@ public class EverythingPatchMod implements
     private void loadLocalization(String lang) {
         //While this does load every type of localization, most of these files are just outlines so that you can see how they're formatted.
         //Feel free to comment out/delete any that you don't end up using.
+        BaseMod.loadCustomStringsFile(CardStrings.class,
+                localizationPath(lang, "CardStrings.json"));
         BaseMod.loadCustomStringsFile(RelicStrings.class,
                 localizationPath(lang, "RelicStrings.json"));
         BaseMod.loadCustomStringsFile(UIStrings.class,
@@ -110,11 +171,10 @@ public class EverythingPatchMod implements
         return resourcesFolder + "/localization/" + lang + "/" + file;
     }
 
-    public static String imagePath(String file) {
-        return resourcesFolder + "/images/" + file;
-    }
-    public static String powerPath(String file) {
-        return resourcesFolder + "/images/powers/" + file;
+    public static String imagePath(String file) {return resourcesFolder + "/images/" + file;}
+    public static String powerPath(String file) {return resourcesFolder + "/images/powers/" + file;}
+    public static String relicPath(String file) {
+        return resourcesFolder + "/images/relics/" + file;
     }
 
     /**

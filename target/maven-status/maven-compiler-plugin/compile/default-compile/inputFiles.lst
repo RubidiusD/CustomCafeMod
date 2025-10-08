@@ -1,4 +1,9 @@
 C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\EverythingPatchMod.java
+C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\implementation\BaseCard.java
+C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\implementation\BaseRelic.java
+C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\implementation\Poof.java
+C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\implementation\TestingTesting.java
+C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\implementation\UpgradeMasterAction.java
 C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\patches\BuxomPatches.java
 C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\patches\CardCopyPatch.java
 C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\patches\CustomStartPatches.java
@@ -8,6 +13,8 @@ C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\patc
 C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\patches\OmegaRecallPreAction.java
 C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\patches\PowerCardScreen.java
 C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\patches\PowerTotalPatches.java
+C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\patches\ScrapperHandLimitPatch.java
+C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\patches\UnEndTurnPatch.java
 C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\util\CardStats.java
 C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\util\EverythingPatchConfig.java
 C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\util\ExprViewer.java

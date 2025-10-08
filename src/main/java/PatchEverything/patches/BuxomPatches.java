@@ -80,16 +80,35 @@ public class BuxomPatches {
         }
     }
 
-    @SpirePatches2({
-            @SpirePatch2(cls= "BuxomMod.ui.BraManager", method= "onGrow", paramtypez = {int.class}, requiredModId = "BuxomMod"),
-            @SpirePatch2(cls= "BuxomMod.ui.BraManager", method= "onShrink", paramtypez = {int.class}, requiredModId = "BuxomMod")
-    })
-    public static class OnlyAnimateBuxom {
+    @SpirePatch2(cls= "BuxomMod.ui.BraManager", method= "onGrow", paramtypez = {int.class}, requiredModId = "BuxomMod")
+    public static class OnlyGrowBuxom {
         @SpireInstrumentPatch public static ExprEditor Instrument() {
             return new ExprEditor() {
                 @Override public void edit(MethodCall m) throws CannotCompileException {
-                    if (m.getMethodName().equals("beginGrowth") || m.getMethodName().equals("beginShrink")) {
-                        m.replace("$_ = null; if (com.megacrit.cardcrawl.dungeons.AbstractDungeon.player instanceof BuxomMod.characters.TheBuxom) {$proceed($$);}");
+                    if (m.getMethodName().equals("beginGrowth")) {
+                        m.replace("$_ = null; if (com.megacrit.cardcrawl.dungeons.AbstractDungeon.player instanceof BuxomMod.characters.TheBuxom) {((BuxomMod.characters.TheBuxom)com.megacrit.cardcrawl.dungeons.AbstractDungeon.player).beginGrowth((float) growthAmount);}");
+                    }
+                }
+
+                @Override public void edit(Cast c) throws CannotCompileException {
+                    try {
+                        if (c.getType().getSimpleName().equals("TheBuxom"))
+                            c.replace("$_ = (BuxomMod.characters.TheBuxom)PatchEverything.EverythingPatchMod.getGeorge();");
+                    } catch (NotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            };
+        }
+    }
+
+    @SpirePatch2(cls= "BuxomMod.ui.BraManager", method= "onShrink", paramtypez = {int.class}, requiredModId = "BuxomMod")
+    public static class OnlyShrinkBuxom {
+        @SpireInstrumentPatch public static ExprEditor Instrument() {
+            return new ExprEditor() {
+                @Override public void edit(MethodCall m) throws CannotCompileException {
+                    if (m.getMethodName().equals("beginShrink")) {
+                        m.replace("$_ = null; if (com.megacrit.cardcrawl.dungeons.AbstractDungeon.player instanceof BuxomMod.characters.TheBuxom) {((BuxomMod.characters.TheBuxom)com.megacrit.cardcrawl.dungeons.AbstractDungeon.player).beginShrink((float) shrinkAmount);}");
                     }
                 }
 
