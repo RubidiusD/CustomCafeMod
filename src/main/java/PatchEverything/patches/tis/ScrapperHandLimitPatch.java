@@ -1,4 +1,4 @@
-package PatchEverything.patches;
+package PatchEverything.patches.tis;
 
 import PatchEverything.util.ExprViewer;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInstrumentPatch;

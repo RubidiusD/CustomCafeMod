@@ -1,4 +1,4 @@
-package PatchEverything.patches;
+package PatchEverything.patches.tis;
 
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;

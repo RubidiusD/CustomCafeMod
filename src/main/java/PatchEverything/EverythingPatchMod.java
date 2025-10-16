@@ -1,11 +1,12 @@
 package PatchEverything;
 
 import PatchEverything.implementation.BaseCard;
-import PatchEverything.implementation.BaseRelic;
 import PatchEverything.implementation.Poof;
+import PatchEverything.patches.CalmCardsPatch;
 import basemod.AutoAdd;
 import basemod.BaseMod;
 import basemod.helpers.CardBorderGlowManager;
+import basemod.helpers.RelicType;
 import basemod.interfaces.*;
 import PatchEverything.patches.PowerCardScreen;
 import PatchEverything.util.EverythingPatchConfig;
@@ -25,8 +26,9 @@ import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.*;
+import com.megacrit.cardcrawl.stances.CalmStance;
+import com.megacrit.cardcrawl.stances.WrathStance;
 import com.megacrit.cardcrawl.unlock.UnlockTracker;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -91,33 +93,22 @@ public class EverythingPatchMod implements
                 });
 
         if (Loader.isModLoaded("dumbjokedivamod")) {
-            // Card Glow Conditions
             CardBorderGlowManager.addGlowInfo(new CardBorderGlowManager.GlowInfo() {
                 @Override public String glowID() { return ("EverythingPatchMod:RhythmGlow"); }
                 @Override public Color getColor(AbstractCard card) {
-                    return new Color(0.2f, 0.9f, 0.7f, (player.hasPower("dumbjokedivamod:Silenced")) ? 0.5f : 1.0f);
+                    return new Color(0.6f, 1.0f, 0.65f, (player.hasPower("dumbjokedivamod:Silenced")) ? 0.5f : 1.0f);
                 }
                 @Override public boolean test(AbstractCard card) {
                     return (divaRhythmGlow && player.hasPower("dumbjokedivamod:Rhythm") && player.getPower("dumbjokedivamod:Rhythm").amount == card.costForTurn);
                 }
             });
         }
+        CardBorderGlowManager.addGlowInfo(CalmCardsPatch.GlowCondition());
     }
 
     @Override
     public void receiveEditRelics() { // adds any relics to the game
-        new AutoAdd(modID) // Loads files
-                .packageFilter(BaseRelic.class) // in the same package as this class
-                .any(BaseRelic.class, (info, relic) -> { // run this code for children
-                    if (relic.pool != null)
-                        BaseMod.addRelicToCustomPool(relic, relic.pool); //Register a custom character specific relic
-                    else
-                        BaseMod.addRelic(relic, relic.relicType); //Register a shared or base game character specific relic
-
-                    // If the class is annotated with @AutoAdd.Seen, it's marked as seen
-                    if (info.seen)
-                        UnlockTracker.markRelicAsSeen(relic.relicId);
-                });
+        BaseMod.addRelic(new Poof(), RelicType.SHARED);
     }
 
     @Override

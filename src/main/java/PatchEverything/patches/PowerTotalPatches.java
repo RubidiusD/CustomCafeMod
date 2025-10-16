@@ -2,11 +2,13 @@ package PatchEverything.patches;
 
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatches2;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import com.megacrit.cardcrawl.powers.PoisonPower;
 import com.megacrit.cardcrawl.powers.RegenPower;
 
 import static PatchEverything.patches.MaxPoisonPatch.addCommas;
+import static PatchEverything.util.EverythingPatchConfig.showPowerTotals;
 import static com.megacrit.cardcrawl.core.CardCrawlGame.languagePack;
 
 @SpirePatches2({
@@ -15,8 +17,9 @@ import static com.megacrit.cardcrawl.core.CardCrawlGame.languagePack;
         @SpirePatch2(cls= "dumbjokedivamod.powers.CaptivationPower", method= "updateDescription", paramtypez={}, requiredModId = "dumbjokedivamod")
 })
 public class PowerTotalPatches {
+    @SpirePostfixPatch
     public static void Postfix(AbstractPower __instance) {
-        if (__instance.owner.isPlayer || !(__instance instanceof RegenPower)) {
+        if (showPowerTotals && (__instance.owner.isPlayer || !(__instance instanceof RegenPower))) {
             __instance.description = __instance.description + languagePack.getUIString("PatchEverything:PowerTotalPatches").TEXT[0] + addCommas("" + (__instance.amount * (__instance.amount + 1)) / 2) + ".";
         }
     }
