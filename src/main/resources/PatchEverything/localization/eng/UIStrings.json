@@ -19,7 +19,7 @@
       "includeStatusCards": "Include Status Cards in Custom Start",
       "includeCurseCards":  "Include Curse Cards in Custom Start",
       "divaRhythmGlow":  "Make cards that'll trigger Rhythm glow",
-      "showPowerTotals": "Show the total damage or healing dealt by a given power",
+      "showPowerTotals": "Show the total damage or healing done by a given power",
       "quickPlayCards": "Auto select targets for TiS cards where applicable"
     }
   },

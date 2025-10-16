@@ -35,6 +35,8 @@ public class JustClickPatches {
 
     @SpirePatch2(clz= JustClickPatch.class, method= "AutoplayCardFor", paramtypez= {AbstractPlayer.class}, requiredModId = "spireTogether")
     public static class AutoplayPatch {
+        public static java.util.ArrayList<Object> availableAllies = new java.util.ArrayList<Object>();
+
         @SpireInstrumentPatch public static ExprEditor Instrument() {
             return new ExprEditor() {
                 @Override public void edit(MethodCall m) throws CannotCompileException {
@@ -44,17 +46,18 @@ public class JustClickPatches {
                             "    spireTogether.cards.CustomMultiplayerCard clickedCard = (spireTogether.cards.CustomMultiplayerCard) p.hoveredCard;" +
                             "    java.lang.reflect.Method playCardMethod = com.megacrit.cardcrawl.characters.AbstractPlayer.class.getDeclaredMethod(\"playCard\", new Class[0]);" +
                             "    playCardMethod.setAccessible(true);" +
-                            "    java.util.ArrayList<spireTogether.network.P2P.P2PPlayer> availableAllies = new java.util.ArrayList<>(spireTogether.util.SpireHelp.Multiplayer.Players.GetPlayers(true, true));" +
+                            "    PatchEverything.patches.tis.JustClickPatches$AutoplayPatch.availableAllies.clear();" +
+                            "    PatchEverything.patches.tis.JustClickPatches$AutoplayPatch.availableAllies.addAll(spireTogether.util.SpireHelp.Multiplayer.Players.GetPlayers(true, true));" +
                             "    if (" +
-                            "            (clickedCard.getAllyTargetingRule() == spireTogether.cards.CustomMultiplayerCard.AllyCardTargeting.ALLY_ONLY && availableAllies.size() == 1) ||" +
-                            "            (clickedCard.getAllyTargetingRule() == spireTogether.cards.CustomMultiplayerCard.AllyCardTargeting.ALLY_AND_ENEMY && availableAllies.size() == 1) ||" +
-                            "            (clickedCard.getAllyTargetingRule() == spireTogether.cards.CustomMultiplayerCard.AllyCardTargeting.ALLY_OR_SELF && availableAllies.isEmpty())" +
+                            "            (clickedCard.getAllyTargetingRule() == spireTogether.cards.CustomMultiplayerCard.AllyCardTargeting.ALLY_ONLY && PatchEverything.patches.tis.JustClickPatches$AutoplayPatch.availableAllies.size() == 1) ||" +
+                            "            (clickedCard.getAllyTargetingRule() == spireTogether.cards.CustomMultiplayerCard.AllyCardTargeting.ALLY_AND_ENEMY && PatchEverything.patches.tis.JustClickPatches$AutoplayPatch.availableAllies.size() == 1) ||" +
+                            "            (clickedCard.getAllyTargetingRule() == spireTogether.cards.CustomMultiplayerCard.AllyCardTargeting.ALLY_OR_SELF && PatchEverything.patches.tis.JustClickPatches$AutoplayPatch.availableAllies.isEmpty())" +
                             "    ) {" +
                             "        com.megacrit.cardcrawl.core.AbstractCreature hoveredCreature;" +
-                            "        if (availableAllies.isEmpty()) {" +
+                            "        if (PatchEverything.patches.tis.JustClickPatches$AutoplayPatch.availableAllies.isEmpty()) {" +
                             "            hoveredCreature = p;" +
                             "        } else {" +
-                            "            hoveredCreature = availableAllies.get(0).GetEntity();" +
+                            "            hoveredCreature = ((spireTogether.network.P2P.P2PPlayer) PatchEverything.patches.tis.JustClickPatches$AutoplayPatch.availableAllies.get(0)).GetEntity();" +
                             "        }" +
                             "        java.lang.reflect.Field field = com.megacrit.cardcrawl.characters.AbstractPlayer.class.getDeclaredField(\"hoveredMonster\");" +
                             "        field.setAccessible(true);" +

@@ -28,6 +28,7 @@ PatchEverything\patches\OmegaRecallPreAction$OmegaRecallActionFix.class
 PatchEverything\implementation\BaseRelic$1.class
 PatchEverything\patches\CardTypePatches.class
 PatchEverything\implementation\TestingTesting.class
+PatchEverything\patches\tis\WeakPointsSaysExhaust.class
 PatchEverything\implementation\BaseCard.class
 PatchEverything\patches\CustomStartPatches.class
 PatchEverything\patches\MaxPoisonPatch$displayOverflowPatch$1.class

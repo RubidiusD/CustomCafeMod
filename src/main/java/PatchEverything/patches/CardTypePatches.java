@@ -21,7 +21,7 @@ public class CardTypePatches {
         }
     }
 
-    @SpirePatch2(cls= "BuxomMod.cards.ToplessStatus", method= SpirePatch.STATICINITIALIZER, requiredModId= "")
+    @SpirePatch2(cls= "BuxomMod.cards.ToplessStatus", method= SpirePatch.STATICINITIALIZER, requiredModId= "BuxomMod")
     public static class ToplessPowerPatch {
         @SpireInstrumentPatch public static ExprEditor Instrument() {
             return new ExprEditor() {
