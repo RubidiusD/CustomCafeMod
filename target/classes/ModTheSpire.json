@@ -3,7 +3,7 @@
   "name": "Everything Patch Mod",
   "author_list": ["Rubidius \"Rubi\" Dext"],
   "description": "If there's a mod that I've used, and it has a bug? It's been fixed by this.",
-  "version": "1.0.1",
+  "version": "1.2.1",
   "sts_version": "12-18-2022",
   "mts_version": "3.30.0",
   "dependencies": ["basemod", "stslib"],

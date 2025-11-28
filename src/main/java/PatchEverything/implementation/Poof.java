@@ -16,7 +16,7 @@ public class Poof extends BaseRelic {
 
     @Override
     public void onExhaust(AbstractCard card) {
-        addToBot(new TalkAction(true, this.name, 0.5F, 0.75F));
+        addToTop(new TalkAction(true, this.name, 0.5F, 0.5F));
     }
 
     @Override

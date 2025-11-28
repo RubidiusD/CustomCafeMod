@@ -1,6 +1,10 @@
 package PatchEverything;
 
+import PatchEverything.RunMods.CreativeAIRelic;
+import PatchEverything.RunMods.CreativeAIRunMod;
 import PatchEverything.implementation.BaseCard;
+import PatchEverything.RunMods.BlasphemyRunMod;
+import PatchEverything.RunMods.BlasphemyRunRelic;
 import PatchEverything.implementation.Poof;
 import PatchEverything.patches.CalmCardsPatch;
 import basemod.AutoAdd;
@@ -27,8 +31,7 @@ import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.localization.*;
-import com.megacrit.cardcrawl.stances.CalmStance;
-import com.megacrit.cardcrawl.stances.WrathStance;
+import com.megacrit.cardcrawl.screens.custom.CustomMod;
 import com.megacrit.cardcrawl.unlock.UnlockTracker;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -43,7 +46,7 @@ import static com.megacrit.cardcrawl.dungeons.AbstractDungeon.player;
 @SpireInitializer
 @SpireSideload(modIDs = {"justclick"})
 public class EverythingPatchMod implements
-        PostInitializeSubscriber, EditCardsSubscriber, EditRelicsSubscriber, EditStringsSubscriber, PostDungeonInitializeSubscriber {
+        PostInitializeSubscriber, EditCardsSubscriber, EditRelicsSubscriber, EditStringsSubscriber, PostDungeonInitializeSubscriber, AddCustomModeModsSubscriber {
     public static ModInfo info;
     public static String modID; //Edit your pom.xml to change this
     static { loadModInfo(); }
@@ -96,7 +99,7 @@ public class EverythingPatchMod implements
             CardBorderGlowManager.addGlowInfo(new CardBorderGlowManager.GlowInfo() {
                 @Override public String glowID() { return ("EverythingPatchMod:RhythmGlow"); }
                 @Override public Color getColor(AbstractCard card) {
-                    return new Color(0.6f, 1.0f, 0.65f, (player.hasPower("dumbjokedivamod:Silenced")) ? 0.5f : 1.0f);
+                    return new Color(0.5f, 1.0f, 0.65f, (player.hasPower("dumbjokedivamod:Silenced")) ? 0.5f : 1.0f);
                 }
                 @Override public boolean test(AbstractCard card) {
                     return (divaRhythmGlow && player.hasPower("dumbjokedivamod:Rhythm") && player.getPower("dumbjokedivamod:Rhythm").amount == card.costForTurn);
@@ -109,12 +112,15 @@ public class EverythingPatchMod implements
     @Override
     public void receiveEditRelics() { // adds any relics to the game
         BaseMod.addRelic(new Poof(), RelicType.SHARED);
+        BaseMod.addRelic(new BlasphemyRunRelic(), RelicType.SHARED);
+        BaseMod.addRelic(new CreativeAIRelic(), RelicType.SHARED);
     }
 
     @Override
     public void receivePostDungeonInitialize() {
         if (Loader.isModLoaded("ExhaustPoof")) {
             player.relics.add(new Poof());
+            player.reorganizeRelics();
         }
     }
 
@@ -125,6 +131,12 @@ public class EverythingPatchMod implements
         if (Loader.isModLoadedOrSideloaded("anniv7")) {
             addCustomScreen(new PowerCardScreen());
         }
+    }
+
+    @Override
+    public void receiveCustomModeMods(List<CustomMod> list) {
+        list.add(new CustomMod(BlasphemyRunMod.ID, "b", true));
+        list.add(new CustomMod(CreativeAIRunMod.ID, "b", true));
     }
 
     /*----------Localization----------*/
@@ -147,6 +159,8 @@ public class EverythingPatchMod implements
                 localizationPath(lang, "RelicStrings.json"));
         BaseMod.loadCustomStringsFile(UIStrings.class,
                 localizationPath(lang, "UIStrings.json"));
+        BaseMod.loadCustomStringsFile(RunModStrings.class,
+                localizationPath(lang, "RunStrings.json"));
     }
 
     private void registerKeyword(KeywordInfo info) {

@@ -6,6 +6,19 @@ import javassist.*;
 import javassist.expr.*;
 
 public class BuxomPatches {
+    @SpirePatch2(cls= "BuxomMod.BuxomMod", method= SpirePatch.CONSTRUCTOR, paramtypez = {}, requiredModId = "BuxomMod")
+    public static class OnByDefault {
+        @SpireInstrumentPatch public static ExprEditor Instrument() {
+            return new ExprEditor() {
+                @Override public void edit(MethodCall m) throws CannotCompileException {
+                    if (m.getMethodName().equals("getBool")) {
+                        m.replace("$_ = true;");
+                    }
+                }
+            };
+        }
+    }
+
     @SpirePatch2(cls = "PatchEverything.EverythingPatchMod", method= "getGeorge", requiredModId = "BuxomMod")
     public static class NewGeorge {
         @SpireInstrumentPatch public static ExprEditor Instrument() {

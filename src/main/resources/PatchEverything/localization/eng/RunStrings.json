@@ -1,0 +1,10 @@
+{
+  "PatchEverything:BlasphemyRunMod": {
+    "NAME": "Blasphemy",
+    "DESCRIPTION": "Start combat in Divinity and die next turn. Removes all defends from the deck."
+  },
+  "PatchEverything:CreativeAIRunMod": {
+    "NAME": "Creative AI",
+    "DESCRIPTION": "Start combat with Creative AI active. Reduce base card draw by 1."
+  }
+}

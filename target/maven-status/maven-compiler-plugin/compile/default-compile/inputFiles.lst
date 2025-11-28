@@ -4,6 +4,7 @@ C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\impl
 C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\implementation\Poof.java
 C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\implementation\TestingTesting.java
 C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\implementation\UpgradeMasterAction.java
+C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\patches\ArtifactNegativeBuffPatch.java
 C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\patches\CalmCardsPatch.java
 C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\patches\CardCopyPatch.java
 C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\patches\CardTypePatches.java
@@ -16,9 +17,15 @@ C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\patc
 C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\patches\PowerTotalPatches.java
 C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\patches\tis\BuxomPatches.java
 C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\patches\tis\JustClickPatches.java
+C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\patches\tis\MikuVisibilityPatch.java
 C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\patches\tis\ScrapperHandLimitPatch.java
 C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\patches\tis\UnEndTurnPatch.java
 C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\patches\tis\WeakPointsSaysExhaust.java
+C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\RunMods\BlasphemyRunMod.java
+C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\RunMods\BlasphemyRunRelic.java
+C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\RunMods\CreativeAIRelic.java
+C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\RunMods\CreativeAIRunMod.java
+C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\RunMods\RunModPatch.java
 C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\util\CardStats.java
 C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\util\EverythingPatchConfig.java
 C:\Users\brine\Documents\GitHub\CustomCafeMod\src\main\java\PatchEverything\util\ExprViewer.java

@@ -94,7 +94,7 @@ public abstract class BaseRelic extends CustomRelic {
         if (text == null) {
             throw new RuntimeException("The \"" + ID + "\" relic does not have associated text. Make sure " +
                     "there's no issue with the RelicStrings.json file, and that the ID in the json file matches the " +
-                    "relic's ID. It should look like \"rubimod:" + GeneralUtils.removePrefix(ID) + "\".");
+                    "relic's ID. It should look like \"PatchEverything:" + GeneralUtils.removePrefix(ID) + "\".");
         }
         return ID;
     }

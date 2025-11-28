@@ -12,5 +12,19 @@
     "DESCRIPTIONS": [
       "Poofs."
     ]
+  },
+  "PatchEverything:BlasphemyRunRelic": {
+    "NAME": "Blasphemy",
+    "FLAVOR": "Blasphemy.",
+    "DESCRIPTIONS": [
+      "Start combat in Divinity and die next turn. Starter Defends cannot be added to your deck. Grants bonus card draw based on the act number."
+    ]
+  },
+  "PatchEverything:CreativeAIRelic": {
+    "NAME": "Creative AI",
+    "FLAVOR": "Creative AI.",
+    "DESCRIPTIONS": [
+      "Replace 1 base card draw with a random power card each turn."
+    ]
   }
 }

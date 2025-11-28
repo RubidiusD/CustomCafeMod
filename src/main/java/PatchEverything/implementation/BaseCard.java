@@ -621,7 +621,7 @@ public abstract class BaseCard extends CustomCard {
 
         public QuickDynamicVariable(String key) {
             this.localKey = key;
-            this.key = ("rubimod:" + key);
+            this.key = ("PatchEverything:" + key);
         }
 
         @Override
