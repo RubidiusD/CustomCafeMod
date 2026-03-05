@@ -20,7 +20,11 @@
       "includeCurseCards":  "Include Curse Cards in Custom Start",
       "divaRhythmGlow":  "Make cards that'll trigger Rhythm glow",
       "showPowerTotals": "Show the total damage or healing done by a given power",
-      "quickPlayCards": "Auto select targets for TiS cards where applicable"
+      "quickPlayCards": "Auto select targets for TiS cards where applicable",
+      "tweakArtifact": "Negative quantities of buffs trigger Artifact (recommended with Hegemon)",
+      "glowCalm": "Cards that exit Wrath glow (not including Divinity)",
+      "glowDiscard": "Matching discard cards glow",
+      "glowExhaust": "Matching exhaust cards glow (on Buxom)"
     }
   },
   "PatchEverything:PowerTotalPatches": {

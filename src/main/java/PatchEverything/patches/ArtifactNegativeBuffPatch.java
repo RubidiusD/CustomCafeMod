@@ -13,7 +13,7 @@ public class ArtifactNegativeBuffPatch {
         return new ExprEditor() {
             @Override public void edit(FieldAccess f) throws CannotCompileException {
                 if (f.getFieldName().equals("DEBUFF")) {
-                    f.replace("if ((powerToApply.canGoNegative) && (powerToApply.amount < 0)) {$_ = com.megacrit.cardcrawl.powers.AbstractPower.PowerType.BUFF;} else {$_ = com.megacrit.cardcrawl.powers.AbstractPower.PowerType.DEBUFF;}");
+                    f.replace("if (PatchEverything.util.EverythingPatchConfig.tweakArtifact && (powerToApply.canGoNegative) && (powerToApply.amount < 0)) {$_ = com.megacrit.cardcrawl.powers.AbstractPower.PowerType.BUFF;} else {$_ = com.megacrit.cardcrawl.powers.AbstractPower.PowerType.DEBUFF;}");
                 }
             }
         };

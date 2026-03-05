@@ -1,4 +1,4 @@
-package PatchEverything.patches;
+package PatchEverything.patches.helpers;
 
 import basemod.helpers.CardBorderGlowManager;
 import com.badlogic.gdx.graphics.Color;
@@ -7,6 +7,7 @@ import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.purple.*;
 import com.megacrit.cardcrawl.stances.WrathStance;
 
+import static PatchEverything.util.EverythingPatchConfig.glowCalm;
 import static com.megacrit.cardcrawl.dungeons.AbstractDungeon.player;
 
 @SpirePatches2({
@@ -18,7 +19,7 @@ import static com.megacrit.cardcrawl.dungeons.AbstractDungeon.player;
         @SpirePatch2(clz= Tranquility.class, method= SpirePatch.CONSTRUCTOR, paramtypez = {}),
         @SpirePatch2(clz= Vigilance.class, method= SpirePatch.CONSTRUCTOR, paramtypez = {})
 })
-public class CalmCardsPatch {
+public class CalmGlowPatch {
     @SpireEnum public static AbstractCard.CardTags CALM;
 
     @SpirePostfixPatch public static void Postfix(AbstractCard __instance) {
@@ -29,7 +30,7 @@ public class CalmCardsPatch {
         return new CardBorderGlowManager.GlowInfo() {
             @Override public String glowID() { return "EverythingPatchMod:CalmCardsGlow"; }
             @Override public Color getColor(AbstractCard c) { return Color.PURPLE; }
-            @Override public boolean test(AbstractCard c) { return player.stance.ID.equals(WrathStance.STANCE_ID) && c.hasTag(CALM); }
+            @Override public boolean test(AbstractCard c) { return glowCalm && player.stance.ID.equals(WrathStance.STANCE_ID) && c.hasTag(CALM); }
         };
     }
 }

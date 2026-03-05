@@ -6,7 +6,9 @@ import PatchEverything.implementation.BaseCard;
 import PatchEverything.RunMods.BlasphemyRunMod;
 import PatchEverything.RunMods.BlasphemyRunRelic;
 import PatchEverything.implementation.Poof;
-import PatchEverything.patches.CalmCardsPatch;
+import PatchEverything.patches.helpers.CalmGlowPatch;
+import PatchEverything.patches.helpers.DiscardGlowPatch;
+import PatchEverything.patches.helpers.ExhaustGlowPatch;
 import basemod.AutoAdd;
 import basemod.BaseMod;
 import basemod.helpers.CardBorderGlowManager;
@@ -39,6 +41,7 @@ import org.scannotation.AnnotationDB;
 
 import java.util.*;
 
+import static PatchEverything.patches.helpers.ExhaustGlowPatch.GlowConditionSource.GlowCondition;
 import static PatchEverything.util.EverythingPatchConfig.divaRhythmGlow;
 import static basemod.BaseMod.addCustomScreen;
 import static com.megacrit.cardcrawl.dungeons.AbstractDungeon.player;
@@ -95,7 +98,7 @@ public class EverythingPatchMod implements
                         UnlockTracker.markCardAsSeen(card.cardID); // marks as discovered if seen before or a starter
                 });
 
-        if (Loader.isModLoaded("dumbjokedivamod")) {
+        if (Loader.isModLoadedOrSideloaded("dumbjokedivamod")) {
             CardBorderGlowManager.addGlowInfo(new CardBorderGlowManager.GlowInfo() {
                 @Override public String glowID() { return ("EverythingPatchMod:RhythmGlow"); }
                 @Override public Color getColor(AbstractCard card) {
@@ -106,7 +109,11 @@ public class EverythingPatchMod implements
                 }
             });
         }
-        CardBorderGlowManager.addGlowInfo(CalmCardsPatch.GlowCondition());
+        CardBorderGlowManager.addGlowInfo(CalmGlowPatch.GlowCondition());
+        CardBorderGlowManager.addGlowInfo(DiscardGlowPatch.GlowCondition());
+        if (Loader.isModLoadedOrSideloaded("BuxomMod")) {
+            CardBorderGlowManager.addGlowInfo(GlowCondition());
+        }
     }
 
     @Override

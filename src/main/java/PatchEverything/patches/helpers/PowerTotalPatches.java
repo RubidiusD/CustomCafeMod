@@ -1,4 +1,4 @@
-package PatchEverything.patches;
+package PatchEverything.patches.helpers;
 
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatches2;
